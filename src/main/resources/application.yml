@@ -1,3 +1,27 @@
 spring:
-  server:
-    port: 8888
+  application:
+    name: spring-days-service
+  h2:
+    console:
+      enabled: true
+  datasource:
+    url: jdbc:h2:file:./h2/data/spring_db
+    username: sa
+    password:
+    driverClassName: org.h2.Driver
+    jpa:
+      hibernate:
+        ddl-auto: none
+      show-sql: true
+      pen-in-view: false
+      generate-ddl: true
+      database: h2s
+      database-platform: org.hibernate.dialect.H2Dialect
+      defer-datasource-initialization: true
+  flyway:
+    locations: classpath:db/migration
+    enabled: true
+    baseline-on-migrate: true
+
+server:
+  port: 8888
