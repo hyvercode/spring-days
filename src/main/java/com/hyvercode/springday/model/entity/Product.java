@@ -1,10 +1,10 @@
 package com.hyvercode.springday.model.entity;
 
+import com.hyvercode.springday.helpers.base.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
@@ -19,9 +19,9 @@ import java.sql.Timestamp;
 @AllArgsConstructor
 @Entity
 @Table(name = "product")
-@SQLDelete(sql = "UPDATE product SET deleted_at=NOW() where product_id=?")
+@SQLDelete(sql = "UPDATE product SET deleted_time=NOW() where product_id=?")
 @Where(clause = "deleted_time is NULL")
-public class Product extends BaseEntity{
+public class Product extends BaseEntity {
 
     @Id
     @Column(name = "product_id",length = 36,nullable = false,unique = true)

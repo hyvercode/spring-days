@@ -1,6 +1,6 @@
-package com.hyvercode.springday.model.request;
+package com.hyvercode.springday.model.response;
 
-import com.hyvercode.springday.helpers.base.BaseRequest;
+import com.hyvercode.springday.helpers.base.BaseResponse;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,7 +12,8 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ProductRequest extends BaseRequest {
+public class ProductResponse extends BaseResponse {
+    private String productId;
     private String sku;
     private String productName;
     private BigDecimal price;
