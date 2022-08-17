@@ -1,4 +1,4 @@
-package com.hyvercode.springday.model.response;
+package com.hyvercode.springday.model.response.product;
 
 import com.hyvercode.springday.helpers.base.BaseResponse;
 import lombok.AllArgsConstructor;

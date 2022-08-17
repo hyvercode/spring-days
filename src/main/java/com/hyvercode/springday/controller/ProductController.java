@@ -1,9 +1,10 @@
 package com.hyvercode.springday.controller;
 
+import com.hyvercode.springday.helpers.base.BasePaginationRequest;
 import com.hyvercode.springday.helpers.base.EmptyResponse;
-import com.hyvercode.springday.model.entity.Product;
 import com.hyvercode.springday.model.request.ProductRequest;
-import com.hyvercode.springday.model.response.ProductResponse;
+import com.hyvercode.springday.model.response.product.PageProductResponse;
+import com.hyvercode.springday.model.response.product.ProductResponse;
 import com.hyvercode.springday.service.ProductService;
 import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
@@ -15,39 +16,45 @@ import java.util.List;
 @RequestMapping("/products")
 public class ProductController {
 
-    private final ProductService productService;
+  private final ProductService productService;
 
-    public ProductController(ProductService productService) {
-        this.productService = productService;
-    }
+  public ProductController(ProductService productService) {
+    this.productService = productService;
+  }
 
-    @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseBody
-    public List<ProductResponse> getAllProduct() {
-        return productService.findAll();
-    }
+  @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
+  @ResponseBody
+  public List<ProductResponse> getAllProduct() {
+    return productService.findAll();
+  }
 
-    @GetMapping(value = "/{product-id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseBody
-    public ProductResponse getProductById(@PathVariable("product-id") String productId) {
-        return productService.findById(productId);
-    }
+  @GetMapping(value = "/paginate", produces = MediaType.APPLICATION_JSON_VALUE)
+  @ResponseBody
+  public PageProductResponse getPaginateProduct(BasePaginationRequest request) {
+    return productService.paginate(request);
+  }
 
-    @PostMapping(value = "", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseBody
-    public EmptyResponse postCreateProduct(@RequestBody @Validated ProductRequest request) {
-        return productService.create(request);
-    }
+  @GetMapping(value = "/{product-id}", produces = MediaType.APPLICATION_JSON_VALUE)
+  @ResponseBody
+  public ProductResponse getProductById(@PathVariable("product-id") String productId) {
+    return productService.findById(productId);
+  }
 
-    @PutMapping(value = "/{product-id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseBody
-    public EmptyResponse putCreateProduct(@PathVariable("product-id") String productId,@RequestBody @Validated ProductRequest request) {
-        return productService.update(productId,request);
-    }
+  @PostMapping(value = "", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+  @ResponseBody
+  public EmptyResponse postCreateProduct(@RequestBody @Validated ProductRequest request) {
+    return productService.create(request);
+  }
 
-    @DeleteMapping(value = "/{product-id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseBody
-    public EmptyResponse deleteProduct(@PathVariable("product-id") String productId) {
-        return productService.delete(productId);
-    }
+  @PutMapping(value = "/{product-id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+  @ResponseBody
+  public EmptyResponse putCreateProduct(@PathVariable("product-id") String productId, @RequestBody @Validated ProductRequest request) {
+    return productService.update(productId, request);
+  }
+
+  @DeleteMapping(value = "/{product-id}", produces = MediaType.APPLICATION_JSON_VALUE)
+  @ResponseBody
+  public EmptyResponse deleteProduct(@PathVariable("product-id") String productId) {
+    return productService.delete(productId);
+  }
 }
