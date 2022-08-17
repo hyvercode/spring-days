@@ -1,6 +1,7 @@
 package com.hyvercode.springday.controller;
 
 import com.hyvercode.springday.model.entity.Product;
+import com.hyvercode.springday.model.request.ProductRequest;
 import com.hyvercode.springday.service.ProductService;
 import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
@@ -32,7 +33,7 @@ public class ProductController {
 
     @PostMapping(value = "", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public Product postCreate(@RequestBody @Validated Product product) {
-        return productService.create(product);
+    public Product postCreate(@RequestBody @Validated ProductRequest request) {
+        return productService.create(request);
     }
 }
