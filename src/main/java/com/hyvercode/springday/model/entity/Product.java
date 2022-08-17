@@ -29,7 +29,7 @@ public class Product extends BaseEntity{
     @GenericGenerator(name = "uuid", strategy = "uuid")
     private String productId;
 
-    @Column(name = "sku",length = 36,nullable = false)
+    @Column(name = "sku",length = 36,nullable = false,unique = true)
     private String sku;
 
     @Column(name = "product_name",length = 60,nullable = false)
