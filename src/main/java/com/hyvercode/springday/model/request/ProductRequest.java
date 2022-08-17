@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 
 @Data
 @NoArgsConstructor
@@ -16,5 +17,8 @@ public class ProductRequest extends BaseRequest {
     private String sku;
     private String productName;
     private BigDecimal price;
+    private BigInteger stock;
+    private String productCategoryId;
+    private String productInventoryId;
     private Boolean isActive;
 }

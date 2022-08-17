@@ -5,10 +5,16 @@ import com.hyvercode.springday.helpers.Constant;
 import com.hyvercode.springday.helpers.base.BasePaginationRequest;
 import com.hyvercode.springday.helpers.base.EmptyResponse;
 import com.hyvercode.springday.helpers.utils.PageableUtil;
+import com.hyvercode.springday.model.dto.ProductCategoryDto;
+import com.hyvercode.springday.model.dto.ProductInventoryDto;
 import com.hyvercode.springday.model.entity.Product;
+import com.hyvercode.springday.model.entity.ProductCategory;
+import com.hyvercode.springday.model.entity.ProductInventory;
 import com.hyvercode.springday.model.request.ProductRequest;
 import com.hyvercode.springday.model.response.product.PageProductResponse;
 import com.hyvercode.springday.model.response.product.ProductResponse;
+import com.hyvercode.springday.repository.ProductCategoryRepository;
+import com.hyvercode.springday.repository.ProductInventoryRepository;
 import com.hyvercode.springday.repository.ProductRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -32,9 +38,16 @@ import java.util.stream.Collectors;
 public class ProductService {
 
   private final ProductRepository productRepository;
+  private final ProductCategoryRepository productCategoryRepository;
 
-  public ProductService(ProductRepository productRepository) {
+  private final ProductInventoryRepository productInventoryRepository;
+
+  public ProductService(ProductRepository productRepository,
+                        ProductCategoryRepository productCategoryRepository,
+                        ProductInventoryRepository productInventoryRepository) {
     this.productRepository = productRepository;
+    this.productCategoryRepository = productCategoryRepository;
+    this.productInventoryRepository = productInventoryRepository;
   }
 
   /**
@@ -50,6 +63,15 @@ public class ProductService {
       .sku(product.getSku())
       .productName(product.getProductName())
       .price(product.getPrice())
+      .productCategory(ProductCategoryDto.builder()
+        .productCategoryId(product.getProductCategory().getProductCategoryId())
+        .productCategoryName(product.getProductCategory().getProductCategoryName())
+        .description(product.getProductCategory().getDescription())
+        .build())
+      .productInventory(ProductInventoryDto.builder()
+        .productInventoryId(product.getProductInventory().getProductInventoryId())
+        .quantity(product.getProductInventory().getQuantity())
+        .build())
       .isActive(product.getIsActive())
       .build()));
     return productResponses;
@@ -57,6 +79,7 @@ public class ProductService {
 
   /**
    * Pagination
+   *
    * @param request
    * @return
    */
@@ -68,9 +91,18 @@ public class ProductService {
     Page<Product> page = productRepository.findAll((Root<Product> root, CriteriaQuery<?> query, CriteriaBuilder builder) ->
       builder.and(builder.like(root.get(request.getSearchBy()), '%' + request.getSearchParam() + '%')), pageable);
 
-    Set<ProductResponse> responses = page.getContent().stream().map(book -> {
+    Set<ProductResponse> responses = page.getContent().stream().map(item -> {
       ProductResponse response = new ProductResponse();
-      BeanUtils.copyProperties(book, response);
+      BeanUtils.copyProperties(item, response);
+      response.setProductCategory(ProductCategoryDto.builder()
+        .productCategoryId(item.getProductCategory().getProductCategoryId())
+        .productCategoryName(item.getProductCategory().getProductCategoryName())
+        .description(item.getProductCategory().getDescription())
+        .build());
+      response.setProductInventory(ProductInventoryDto.builder()
+        .productInventoryId(item.getProductInventory().getProductInventoryId())
+        .quantity(item.getProductInventory().getQuantity())
+        .build());
       return response;
     }).collect(Collectors.toSet());
 
@@ -99,6 +131,15 @@ public class ProductService {
       .sku(product.getSku())
       .productName(product.getProductName())
       .price(product.getPrice())
+      .productCategory(ProductCategoryDto.builder()
+        .productCategoryId(product.getProductCategory().getProductCategoryId())
+        .productCategoryName(product.getProductCategory().getProductCategoryName())
+        .description(product.getProductCategory().getDescription())
+        .build())
+      .productInventory(ProductInventoryDto.builder()
+        .productInventoryId(product.getProductInventory().getProductInventoryId())
+        .quantity(product.getProductInventory().getQuantity())
+        .build())
       .isActive(product.getIsActive())
       .build();
   }
@@ -110,10 +151,23 @@ public class ProductService {
    * @return
    */
   public EmptyResponse create(ProductRequest request) {
+    Optional<ProductCategory> optionalProductCategory = productCategoryRepository.findById(request.getProductCategoryId());
+    ProductCategory productCategory = optionalProductCategory.orElseThrow(() ->
+      new BusinessException(HttpStatus.CONFLICT, Constant.ERROR_CODE_01, Constant.ERROR_MESSAGE_01));
+
+    ProductInventory productInventory = ProductInventory.builder()
+      .quantity(request.getStock())
+      .build();
+    productInventory.setCreatedBy(Constant.CREATOR);
+    productInventory.setCreatedTime(new Timestamp(System.currentTimeMillis()));
+    var productInventorySave = productInventoryRepository.save(productInventory);
+
     Product product = Product.builder()
       .sku(request.getSku())
       .productName(request.getProductName())
       .price(request.getPrice())
+      .productCategory(productCategory)
+      .productInventory(productInventorySave)
       .isActive(request.getIsActive())
       .build();
     product.setCreatedBy(Constant.CREATOR);
@@ -137,8 +191,15 @@ public class ProductService {
       log.info(Constant.ERROR_MESSAGE_01 + "{}", id);
       throw new BusinessException(HttpStatus.CONFLICT, Constant.ERROR_CODE_01, Constant.ERROR_MESSAGE_01);
     }
+
+    Optional<ProductCategory> optionalProductCategory = productCategoryRepository.findById(request.getProductCategoryId());
+    ProductCategory productCategory = optionalProductCategory.orElseThrow(() ->
+      new BusinessException(HttpStatus.CONFLICT, Constant.ERROR_CODE_01, Constant.ERROR_MESSAGE_01));
+
+
     Product product = optionalProduct.get();
     BeanUtils.copyProperties(request, product);
+    product.setProductCategory(productCategory);
     product.setUpdatedBy(Constant.CREATOR);
     product.setUpdatedTime(new Timestamp(System.currentTimeMillis()));
     productRepository.save(product);

@@ -23,24 +23,32 @@ import java.sql.Timestamp;
 @Where(clause = "deleted_time is NULL")
 public class Product extends BaseEntity {
 
-    @Id
-    @Column(name = "product_id",length = 36,nullable = false,unique = true)
-    @GeneratedValue(generator = "uuid")
-    @GenericGenerator(name = "uuid", strategy = "uuid")
-    private String productId;
+  @Id
+  @Column(name = "product_id", length = 36, nullable = false, unique = true)
+  @GeneratedValue(generator = "uuid")
+  @GenericGenerator(name = "uuid", strategy = "uuid")
+  private String productId;
 
-    @Column(name = "sku",length = 36,nullable = false,unique = true)
-    private String sku;
+  @Column(name = "sku", length = 36, nullable = false, unique = true)
+  private String sku;
 
-    @Column(name = "product_name",length = 60,nullable = false)
-    private String productName;
+  @Column(name = "product_name", length = 60, nullable = false)
+  private String productName;
 
-    @Column(name = "price")
-    private BigDecimal price;
+  @Column(name = "price")
+  private BigDecimal price;
 
-    @Column(name = "is_active")
-    private Boolean isActive;
+  @Column(name = "is_active")
+  private Boolean isActive;
 
-    @Column(name = "deleted_time")
-    private Timestamp deletedTime;
+  @OneToOne(cascade = CascadeType.ALL)
+  @JoinColumn(name = "product_category_id")
+  private ProductCategory productCategory;
+
+  @OneToOne(cascade = CascadeType.ALL)
+  @JoinColumn(name = "product_inventory_id")
+  private ProductInventory productInventory;
+
+  @Column(name = "deleted_time")
+  private Timestamp deletedTime;
 }
