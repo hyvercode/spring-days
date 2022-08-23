@@ -13,17 +13,18 @@ public final class PageableUtil {
 
   private static final String ASC_VALUE = "ASC";
 
+  private static final String SORT="([a-z]+[A-Z]+\\w+)+";
   private PageableUtil() {
 
   }
 
   public static PageRequest createPageRequestNative(BasePaginationRequest req, Integer defaultPageSize, Integer defaultPageNumber, String defaultSortBy, String defaultSortType) {
 
-    if (req.getSortBy() != null && req.getSortBy().matches("([a-z]+[A-Z]+\\w+)+")) {
+    if (req.getSortBy() != null && req.getSortBy().matches(SORT)) {
       req.setSortBy(LOWER_CAMEL.to(LOWER_UNDERSCORE, req.getSortBy()));
     }
 
-    if (defaultSortBy.matches("([a-z]+[A-Z]+\\w+)+")) {
+    if (defaultSortBy.matches(SORT)) {
       defaultSortBy = LOWER_CAMEL.to(LOWER_UNDERSCORE, defaultSortBy);
     }
 
