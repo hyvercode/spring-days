@@ -21,18 +21,27 @@ import java.sql.Timestamp;
 @Where(clause = "deleted_time is NULL")
 public class User {
 
-    @Id
-    @Column(name = "user_id",length = 36,nullable = false,unique = true)
-    @GeneratedValue(generator = "uuid")
-    @GenericGenerator(name = "uuid", strategy = "uuid")
-    private String userId;
+  @Id
+  @Column(name = "user_id", length = 36, nullable = false, unique = true)
+  @GeneratedValue(generator = "uuid")
+  @GenericGenerator(name = "uuid", strategy = "uuid")
+  private String userId;
 
-    @Column(name = "name",length = 60,nullable = false)
-    private String name;
+  @Column(name = "email", length = 30, nullable = false)
+  private String email;
 
-    @Column(name = "email",length = 30,nullable = false)
-    private String email;
+  @Column(name = "password", nullable = false)
+  private String password;
 
-    @Column(name = "deleted_time")
-    private Timestamp deletedTime;
+  @Column(name = "name", length = 60, nullable = false)
+  private String name;
+
+  @Column(name = "phone_number", length = 15, nullable = false)
+  private String phoneNumber;
+
+  @Column(name = "is_active")
+  private Boolean isActive;
+
+  @Column(name = "deleted_time")
+  private Timestamp deletedTime;
 }
