@@ -1,7 +1,7 @@
 package com.hyvercode.springday.service;
 
 import com.hyvercode.springday.exception.BusinessException;
-import com.hyvercode.springday.helpers.Constant;
+import com.hyvercode.springday.helpers.ErrorConstant;
 import com.hyvercode.springday.helpers.base.BasePaginationRequest;
 import com.hyvercode.springday.helpers.base.EmptyResponse;
 import com.hyvercode.springday.helpers.utils.PageableUtil;
@@ -121,8 +121,8 @@ public class ProductService {
   public ProductResponse findById(String id) {
     Optional<Product> optionalProduct = productRepository.findById(id);
     if (optionalProduct.isEmpty()) {
-      log.info(Constant.ERROR_MESSAGE_01 + "{}", id);
-      throw new BusinessException(HttpStatus.CONFLICT, Constant.ERROR_CODE_01, Constant.ERROR_MESSAGE_01);
+      log.info(ErrorConstant.ERROR_MESSAGE_01 + "{}", id);
+      throw new BusinessException(HttpStatus.CONFLICT, ErrorConstant.ERROR_CODE_01, ErrorConstant.ERROR_MESSAGE_01);
     }
     Product product = optionalProduct.get();
 
@@ -153,12 +153,12 @@ public class ProductService {
   public EmptyResponse create(ProductRequest request) {
     Optional<ProductCategory> optionalProductCategory = productCategoryRepository.findById(request.getProductCategoryId());
     ProductCategory productCategory = optionalProductCategory.orElseThrow(() ->
-      new BusinessException(HttpStatus.CONFLICT, Constant.ERROR_CODE_01, Constant.ERROR_MESSAGE_01));
+      new BusinessException(HttpStatus.CONFLICT, ErrorConstant.ERROR_CODE_01, ErrorConstant.ERROR_MESSAGE_01));
 
     ProductInventory productInventory = ProductInventory.builder()
       .quantity(request.getStock())
       .build();
-    productInventory.setCreatedBy(Constant.CREATOR);
+    productInventory.setCreatedBy(ErrorConstant.CREATOR);
     productInventory.setCreatedTime(new Timestamp(System.currentTimeMillis()));
     var productInventorySave = productInventoryRepository.save(productInventory);
 
@@ -170,7 +170,7 @@ public class ProductService {
       .productInventory(productInventorySave)
       .isActive(request.getIsActive())
       .build();
-    product.setCreatedBy(Constant.CREATOR);
+    product.setCreatedBy(ErrorConstant.CREATOR);
     product.setCreatedTime(new Timestamp(System.currentTimeMillis()));
     productRepository.save(product);
 
@@ -188,19 +188,19 @@ public class ProductService {
 
     Optional<Product> optionalProduct = productRepository.findById(id);
     if (optionalProduct.isEmpty()) {
-      log.info(Constant.ERROR_MESSAGE_01 + "{}", id);
-      throw new BusinessException(HttpStatus.CONFLICT, Constant.ERROR_CODE_01, Constant.ERROR_MESSAGE_01);
+      log.info(ErrorConstant.ERROR_MESSAGE_01 + "{}", id);
+      throw new BusinessException(HttpStatus.CONFLICT, ErrorConstant.ERROR_CODE_01, ErrorConstant.ERROR_MESSAGE_01);
     }
 
     Optional<ProductCategory> optionalProductCategory = productCategoryRepository.findById(request.getProductCategoryId());
     ProductCategory productCategory = optionalProductCategory.orElseThrow(() ->
-      new BusinessException(HttpStatus.CONFLICT, Constant.ERROR_CODE_01, Constant.ERROR_MESSAGE_01));
+      new BusinessException(HttpStatus.CONFLICT, ErrorConstant.ERROR_CODE_01, ErrorConstant.ERROR_MESSAGE_01));
 
 
     Product product = optionalProduct.get();
     BeanUtils.copyProperties(request, product);
     product.setProductCategory(productCategory);
-    product.setUpdatedBy(Constant.CREATOR);
+    product.setUpdatedBy(ErrorConstant.CREATOR);
     product.setUpdatedTime(new Timestamp(System.currentTimeMillis()));
     productRepository.save(product);
 
@@ -217,8 +217,8 @@ public class ProductService {
 
     Optional<Product> optionalProduct = productRepository.findById(id);
     if (optionalProduct.isEmpty()) {
-      log.info(Constant.ERROR_MESSAGE_01 + "{}", id);
-      throw new BusinessException(HttpStatus.CONFLICT, Constant.ERROR_CODE_01, Constant.ERROR_MESSAGE_01);
+      log.info(ErrorConstant.ERROR_MESSAGE_01 + "{}", id);
+      throw new BusinessException(HttpStatus.CONFLICT, ErrorConstant.ERROR_CODE_01, ErrorConstant.ERROR_MESSAGE_01);
     }
     productRepository.deleteById(id);
 

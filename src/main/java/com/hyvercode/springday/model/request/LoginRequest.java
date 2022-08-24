@@ -15,8 +15,8 @@ import javax.validation.constraints.NotEmpty;
 @Builder
 public class LoginRequest extends BaseRequest {
 
-  @Email
-  private String email;
+  @NotEmpty
+  private String username;
   @NotEmpty
   private String password;
 }

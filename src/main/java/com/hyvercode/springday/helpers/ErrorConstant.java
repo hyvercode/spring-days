@@ -1,7 +1,7 @@
 package com.hyvercode.springday.helpers;
 
-public class Constant {
-    private Constant() {
+public class ErrorConstant {
+    private ErrorConstant() {
     }
 
     public static final String CREATOR = "SYSTEM";

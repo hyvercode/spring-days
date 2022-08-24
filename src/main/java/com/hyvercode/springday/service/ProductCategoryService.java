@@ -1,6 +1,6 @@
 package com.hyvercode.springday.service;
 
-import com.hyvercode.springday.helpers.Constant;
+import com.hyvercode.springday.helpers.ErrorConstant;
 import com.hyvercode.springday.helpers.base.EmptyResponse;
 import com.hyvercode.springday.model.entity.ProductCategory;
 import com.hyvercode.springday.model.request.ProductCategoryRequest;
@@ -26,7 +26,7 @@ public class ProductCategoryService {
       .description(request.getDescription())
       .isActive(request.getIsActive())
       .build();
-    productCategory.setCreatedBy(Constant.CREATOR);
+    productCategory.setCreatedBy(ErrorConstant.CREATOR);
     productCategory.setCreatedTime(new Timestamp(System.currentTimeMillis()));
     productCategoryRepository.save(productCategory);
 

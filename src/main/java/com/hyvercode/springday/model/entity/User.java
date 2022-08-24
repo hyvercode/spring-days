@@ -10,6 +10,8 @@ import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
 @Builder
@@ -27,8 +29,8 @@ public class User {
   @GenericGenerator(name = "uuid", strategy = "uuid")
   private String userId;
 
-  @Column(name = "email", length = 30, nullable = false)
-  private String email;
+  @Column(name = "username", length = 30, nullable = false)
+  private String username;
 
   @Column(name = "password", nullable = false)
   private String password;
@@ -36,11 +38,22 @@ public class User {
   @Column(name = "name", length = 60, nullable = false)
   private String name;
 
+  @Column(name = "email", length = 30, nullable = false)
+  private String email;
+
   @Column(name = "phone_number", length = 15, nullable = false)
   private String phoneNumber;
 
   @Column(name = "is_active")
   private Boolean isActive;
+
+  @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+  @JoinTable(
+    name = "users_roles",
+    joinColumns = @JoinColumn(name = "user_id"),
+    inverseJoinColumns = @JoinColumn(name = "role_id")
+  )
+  private Set<Role> roles = new HashSet<>();
 
   @Column(name = "deleted_time")
   private Timestamp deletedTime;

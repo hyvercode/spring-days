@@ -32,3 +32,25 @@ spring-doc:
     path: /api-docs
   swagger-ui:
     path: /swagger-ui.html
+
+setting:
+  service:
+    internal:
+      name: todo-replace-me
+      key: 649085694586958
+  jwt:
+    token:
+      issuer: MY_LOCAL_MACHINE
+    jks:
+      filePath: './add-your-jks-here.jks'
+      filePassword: 'P@ssw0rd'
+      keyName: 'jwt_key'
+      keyPassword: 'P@ssw0rd'
+
+jwt:
+  token:
+    validity: 4958493086968
+  signing:
+    key: 8969038693863908
+  authorities:
+    key: 8695768476487
