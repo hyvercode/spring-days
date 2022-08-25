@@ -10,6 +10,7 @@ import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.security.RolesAllowed;
 import java.util.List;
 
 @RestController
@@ -42,6 +43,7 @@ public class ProductController {
 
   @PostMapping(value = "", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
   @ResponseBody
+  @RolesAllowed("ADMIN")
   public EmptyResponse postCreateProduct(@RequestBody @Validated ProductRequest request) {
     return productService.create(request);
   }

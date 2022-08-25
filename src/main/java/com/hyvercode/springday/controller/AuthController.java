@@ -19,7 +19,7 @@ public class AuthController {
     this.authService = authService;
   }
 
-  @PostMapping(value = "/",consumes = MediaType.APPLICATION_JSON_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)
+  @PostMapping(value = "",consumes = MediaType.APPLICATION_JSON_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)
   @ResponseBody
   public BaseResponse login(@RequestBody @Valid LoginRequest request){
     return authService.login(request);

@@ -1,7 +1,6 @@
 package com.hyvercode.springday.auth;
 
 import com.hyvercode.springday.helpers.constant.SecurityConstants;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -13,9 +12,10 @@ import java.io.IOException;
 
 public class AuthenticationFilter extends OncePerRequestFilter {
 
-  private SecurityContextService authenticationService;
+  private final SecurityContextService authenticationService;
 
   public AuthenticationFilter(SecurityContextService authenticationService) {
+    this.authenticationService = authenticationService;
   }
 
   @Override
