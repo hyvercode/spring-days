@@ -1,5 +1,6 @@
 package com.hyvercode.springday.service;
 
+import com.hyvercode.springday.auth.SecurityContextService;
 import com.hyvercode.springday.exception.BusinessException;
 import com.hyvercode.springday.helpers.ErrorConstant;
 import com.hyvercode.springday.helpers.base.BasePaginationRequest;
@@ -42,12 +43,13 @@ public class ProductService {
 
   private final ProductInventoryRepository productInventoryRepository;
 
-  public ProductService(ProductRepository productRepository,
-                        ProductCategoryRepository productCategoryRepository,
-                        ProductInventoryRepository productInventoryRepository) {
+  private final SecurityContextService securityContextService;
+
+  public ProductService(ProductRepository productRepository, ProductCategoryRepository productCategoryRepository, ProductInventoryRepository productInventoryRepository, SecurityContextService securityContextService) {
     this.productRepository = productRepository;
     this.productCategoryRepository = productCategoryRepository;
     this.productInventoryRepository = productInventoryRepository;
+    this.securityContextService = securityContextService;
   }
 
   /**
@@ -158,7 +160,7 @@ public class ProductService {
     ProductInventory productInventory = ProductInventory.builder()
       .quantity(request.getStock())
       .build();
-    productInventory.setCreatedBy(ErrorConstant.CREATOR);
+    productInventory.setCreatedBy(securityContextService.getCurrentUserId());
     productInventory.setCreatedTime(new Timestamp(System.currentTimeMillis()));
     var productInventorySave = productInventoryRepository.save(productInventory);
 

@@ -8,7 +8,7 @@ import java.util.UUID;
 public interface SecurityContextService {
   public UsernamePasswordAuthenticationToken decodeUserToken(String token);
   public AbstractAuthenticationToken decodeServiceApiSecret(String key);
-  public long getCurrentUserId();
+  public String getCurrentUserId();
   public UUID getCurrentUserTokenId();
   public String getCurrentUserPhoneNumber();
   public String getCurrentToken();
