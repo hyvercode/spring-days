@@ -1,56 +1,53 @@
 spring:
-  profiles: local
   datasource:
-    driverClassName: org.postgresql.Driver
+    platform: postgres
     url: jdbc:postgresql://localhost:5432/spring-days
+    driverClassName: org.postgresql.Driver
     username: postgres
     password: root
 
-    jpa:
+  # Rabbitmq3 Config
+  rabbitmq:
+    port: 5672
+    host:  rabbitmq3
+    username: guest
+    password: guest
+    queue:
+      name: spring-days
+
+  # Redis Config
+  redis:
+    host: redis
+    port: 6379
+
+logging:
+  level:
+    org:
       hibernate:
-        ddl-auto: none
-      show-sql: true
-      pen-in-view: false
-      generate-ddl: true
-      database: postgresql
-      database-platform: org.hibernate.dialect.PostgreSQLDialect
-      defer-datasource-initialization: true
+        SQL: debug
+        type:
+          descriptor:
+            sql: trace
+      springframework:
+        web:
+          client:
+            RestTemplate: DEBUG
 
-    # Logger configuration
-    logging:
-      level:
-        org.hibernate.SQL: DEBUG
-        org.hibernate.type.descriptor.sql: TRACE
-        org.springframework: INFO
-
-    flyway:
-      locations: classpath:db/migration
-      url: jdbc:postgresql://localhost:5432/spring-days
-      username: postgres
-      password: root
-
-server:
-  port: 8888
-
-spring-doc:
-  version: '3.0'
-  api-docs:
-    path: /api-docs
-  swagger-ui:
-    path: /swagger-ui.html
+management:
+  endpoint:
+    health:
+      show-details: always
 
 setting:
   service:
     internal:
-      name: todo-replace-me
-      key: 649085694586958
+      name: 'bfi-tms-backoffice'
+      key: INTERNAL_KEY
   jwt:
     token:
-      issuer: LOCAL
+      issuer: MY_LOCAL_MACHINE
     jks:
       filePath: './add-your-jks-here.jks'
       filePassword: 'P@ssw0rd'
       keyName: 'jwt_key'
       keyPassword: 'P@ssw0rd'
-    secret: secretkey
-

@@ -1,0 +1,41 @@
+version: "3.8"
+services:
+  rabbitmq3:
+    container_name: "rabbitmq"
+    image: rabbitmq:3.8-management-alpine
+    environment:
+      - RABBITMQ_DEFAULT_USER=bfi-tms-backoffice
+      - RABBITMQ_DEFAULT_PASS=bfi-tms-backoffice
+    ports:
+      # AMQP protocol port
+      - "5672:5672"
+      # HTTP management UI
+      - "15672:15672"
+  postgres:
+    image: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: bfi-tms-backoffice
+      POSTGRES_USER: bfi-tms-backoffice
+      POSTGRES_PASSWORD: bfi-tms-backoffice
+  redis:
+    image: redis
+    ports:
+      - "6379:6379"
+  bfi-tms-backoffice:
+    build:
+      context: .
+    ports:
+      - "8888:8080"
+    environment:
+      JAVA_OPTS: -DXmx1g
+      SPRING_PROFILES_ACTIVE: local-standalone
+    links:
+      - postgres
+      - rabbitmq3
+      - redis
+    depends_on:
+      - postgres
+      - rabbitmq3
+      - redis

@@ -1,6 +1,6 @@
 package com.hyvercode.springday.service;
 
-import com.hyvercode.springday.helpers.ErrorConstant;
+import com.hyvercode.springday.auth.SecurityContextService;
 import com.hyvercode.springday.helpers.base.EmptyResponse;
 import com.hyvercode.springday.model.entity.ProductCategory;
 import com.hyvercode.springday.model.request.ProductCategoryRequest;
@@ -16,8 +16,11 @@ public class ProductCategoryService {
 
   private final ProductCategoryRepository productCategoryRepository;
 
-  public ProductCategoryService(ProductCategoryRepository productCategoryRepository) {
+  private final SecurityContextService securityContextService;
+
+  public ProductCategoryService(ProductCategoryRepository productCategoryRepository, SecurityContextService securityContextService) {
     this.productCategoryRepository = productCategoryRepository;
+    this.securityContextService = securityContextService;
   }
 
   public EmptyResponse create(ProductCategoryRequest request){
@@ -26,7 +29,7 @@ public class ProductCategoryService {
       .description(request.getDescription())
       .isActive(request.getIsActive())
       .build();
-    productCategory.setCreatedBy(ErrorConstant.CREATOR);
+    productCategory.setCreatedBy(securityContextService.getCurrentUserId());
     productCategory.setCreatedTime(new Timestamp(System.currentTimeMillis()));
     productCategoryRepository.save(productCategory);
 

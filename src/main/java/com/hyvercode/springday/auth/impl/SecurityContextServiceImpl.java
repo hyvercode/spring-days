@@ -91,13 +91,13 @@ public class SecurityContextServiceImpl implements SecurityContextService {
   }
 
   @Override
-  public long getCurrentUserId() {
-    long currentUserId = 0;
+  public String getCurrentUserId() {
+    String currentUserId = "";
     if (getCurrentDecodedJwt() != null) {
       currentUserId =
         getCurrentDecodedJwt()
           .getClaim(SecurityConstants.TOKEN_USER_ID_CLAIM_KEY)
-          .asLong();
+          .asString();
     }
 
     return currentUserId;
