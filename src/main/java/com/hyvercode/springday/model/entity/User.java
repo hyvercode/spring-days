@@ -44,6 +44,9 @@ public class User {
   @Column(name = "phone_number", length = 15, nullable = false)
   private String phoneNumber;
 
+  @Column(name = "device_id", length = 60, nullable = false)
+  private String deviceId;
+
   @Column(name = "is_active")
   private Boolean isActive;
 

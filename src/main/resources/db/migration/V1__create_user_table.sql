@@ -5,6 +5,7 @@ CREATE TABLE users (
     name            VARCHAR(60) NOT NULL,
     email           VARCHAR(30) NOT NULL UNIQUE,
     phone_number    VARCHAR(15) NOT NULL,
+    device_id       VARCHAR(60) NOT NULL,
     is_active       BOOLEAN DEFAULT TRUE,
     created_by      VARCHAR(50) NULL,
     created_time    TIMESTAMP DEFAULT NOW(),

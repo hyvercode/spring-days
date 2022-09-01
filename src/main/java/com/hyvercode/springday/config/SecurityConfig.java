@@ -58,7 +58,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
       // Authorization requests config
       .authorizeRequests()
       // Enabled h2
-      .antMatchers("/login/**")
+      .antMatchers("/login/**","/register/**")
       .permitAll()
       // Enabled swagger end points
       .antMatchers("/api-docs", "/api-docs/**", "/configuration/**", "/swagger*/**", "/webjars/**")
@@ -78,8 +78,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
       // All others should have LOGIN claim
       .antMatchers("/**")
-      .hasAuthority(SecurityConstants.AuthenticationClaim.LOGIN.toString())
-      .anyRequest()
+//      .hasAuthority(SecurityConstants.AuthenticationClaim.LOGIN.toString())
+//      .anyRequest()
       .authenticated();
   }
 }

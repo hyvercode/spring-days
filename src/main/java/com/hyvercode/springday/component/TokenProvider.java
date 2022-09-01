@@ -48,7 +48,7 @@ public class TokenProvider implements Serializable {
       .withJWTId(UUID.randomUUID().toString())
       .withIssuer(tokenIssuer)
       .withClaim(TOKEN_USER_ID_CLAIM_KEY, users.getUserId())
-      .withClaim(SecurityConstants.TOKEN_DEVICE_ID_CLAIM_KEY, "1")
+      .withClaim(SecurityConstants.TOKEN_DEVICE_ID_CLAIM_KEY, users.getDeviceId())
       .withSubject(users.getPassword())
       .withClaim(SecurityConstants.TOKEN_EMAIL_CLAIM_KEY, users.getEmail())
       .withClaim(SecurityConstants.TOKEN_ROLES_CLAIM_KEY, Arrays.asList(roles))
