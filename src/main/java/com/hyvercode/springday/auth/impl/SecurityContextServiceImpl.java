@@ -60,7 +60,7 @@ public class SecurityContextServiceImpl implements SecurityContextService {
             .asList(String.class)
             .stream()
             .map(SimpleGrantedAuthority::new)
-            .collect(Collectors.toList())
+            .toList()
         );
     } catch (JWTVerificationException exception) {
       log.error("JWT error", exception);
