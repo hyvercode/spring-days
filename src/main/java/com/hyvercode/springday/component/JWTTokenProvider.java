@@ -5,6 +5,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.JWTVerifier;
 import com.hyvercode.springday.helpers.constant.SecurityConstants;
+import com.hyvercode.springday.model.entity.Role;
 import com.hyvercode.springday.model.entity.UserPrincipal;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
@@ -41,11 +42,14 @@ public class JWTTokenProvider {
 
   public String generateJwtToken(UserPrincipal userPrincipal) {
     String[] claims = getClaimsFromUser(userPrincipal);
+
+    String[] roles = userPrincipal.getRoles().stream().map(Role::getName).toList().toArray(new String[0]);
+
     return JWT.create()
       .withIssuer(tokenIssuer)
       .withAudience(internalServiceName)
       .withIssuedAt(new Date()).withSubject(userPrincipal.getUsername())
-      .withClaim(SecurityConstants.TOKEN_ROLES_CLAIM_KEY, Collections.singletonList(userPrincipal.getRoles()))
+      .withClaim(SecurityConstants.TOKEN_ROLES_CLAIM_KEY, Arrays.asList(roles))
       .withArrayClaim(AUTHORITIES, claims).withExpiresAt(new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY * 1000))
       .sign(Algorithm.HMAC512("SECRET"));
   }

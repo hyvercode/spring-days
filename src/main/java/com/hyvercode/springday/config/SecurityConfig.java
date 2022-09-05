@@ -96,8 +96,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
       // All others should have LOGIN claim
       .antMatchers("/**")
-//      .hasAuthority(SecurityConstants.AuthenticationClaim.LOGIN.toString())
-//      .anyRequest()
+      .hasAuthority(SecurityConstants.AuthenticationClaim.LOGIN.toString())
+      .anyRequest()
       .authenticated();
   }
 }
