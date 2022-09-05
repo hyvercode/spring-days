@@ -31,4 +31,7 @@ public abstract class SecurityConstants {
   public static final String BEARER_TOKEN_PREFIX = "Bearer";
   public static final String AUTHORIZATION_HEADER_KEY = "Authorization";
   public static final String API_SECRET_HEADER_KEY = "api-secret";
+
+  public static final long JWT_TOKEN_VALIDITY = 720 * 60 * 60L;
+  public static final String AUTHORITIES = "authorities";
 }
