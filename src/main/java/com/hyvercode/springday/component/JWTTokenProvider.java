@@ -43,14 +43,21 @@ public class JWTTokenProvider {
   public String generateJwtToken(UserPrincipal userPrincipal) {
     String[] claims = getClaimsFromUser(userPrincipal);
 
-    String[] roles = userPrincipal.getRoles().stream().map(Role::getName).toList().toArray(new String[0]);
-
     return JWT.create()
       .withIssuer(tokenIssuer)
       .withAudience(internalServiceName)
-      .withIssuedAt(new Date()).withSubject(userPrincipal.getUsername())
-      .withClaim(SecurityConstants.TOKEN_ROLES_CLAIM_KEY, Arrays.asList(roles))
+      .withIssuedAt(new Date())
+      .withSubject(userPrincipal.getUsername())
+      .withClaim("roles", userPrincipal.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
       .withArrayClaim(AUTHORITIES, claims).withExpiresAt(new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY * 1000))
+      .sign(Algorithm.HMAC512("SECRET"));
+  }
+
+  public String refreshJwtToken(UserPrincipal userPrincipal) {
+    return JWT.create()
+      .withIssuer(tokenIssuer)
+      .withSubject(userPrincipal.getUsername())
+      .withExpiresAt(new Date(System.currentTimeMillis()+ 8 * 60*60*1000))
       .sign(Algorithm.HMAC512("SECRET"));
   }
 

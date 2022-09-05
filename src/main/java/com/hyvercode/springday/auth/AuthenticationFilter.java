@@ -46,8 +46,7 @@ public class AuthenticationFilter extends OncePerRequestFilter {
         );
     } else if (apiSecretHeader != null) {
       // Service key
-      SecurityContextHolder.getContext()
-        .setAuthentication(authenticationService.decodeServiceApiSecret(apiSecretHeader));
+      SecurityContextHolder.getContext().setAuthentication(authenticationService.decodeServiceApiSecret(apiSecretHeader));
     }
 
     filterChain.doFilter(request, response);

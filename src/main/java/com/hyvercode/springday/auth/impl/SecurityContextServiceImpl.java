@@ -47,8 +47,7 @@ public class SecurityContextServiceImpl implements SecurityContextService {
         .build()
         .verify(token);
 
-      tokenUser =
-        new UsernamePasswordAuthenticationToken(
+      tokenUser = new UsernamePasswordAuthenticationToken(
           // Principal - Actual Decoded Token object
           jwtToken,
           // Password - Empty Password
