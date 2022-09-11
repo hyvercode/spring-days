@@ -4,6 +4,7 @@ import com.hyvercode.springday.auth.AuthenticationFilter;
 import com.hyvercode.springday.auth.SecurityContextService;
 import com.hyvercode.springday.helpers.constant.SecurityConstants;
 
+import com.hyvercode.springday.service.UserDetailsServiceImpl;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -16,7 +17,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import javax.servlet.http.HttpServletResponse;
@@ -24,25 +24,27 @@ import javax.servlet.http.HttpServletResponse;
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-@AllArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
   @Autowired
   private SecurityContextService authenticationService;
 
-  private UserDetailsService userDetailsService;
-  private BCryptPasswordEncoder bCryptPasswordEncoder;
-
+  @Autowired
+  private UserDetailsServiceImpl userDetailsService;
   @Override
   protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-    auth.userDetailsService(userDetailsService)
-      .passwordEncoder(bCryptPasswordEncoder);
+    auth.userDetailsService(userDetailsService);
   }
 
   @Bean
   @Override
   public AuthenticationManager authenticationManagerBean() throws Exception {
     return super.authenticationManagerBean();
+  }
+
+  @Bean
+  public BCryptPasswordEncoder bCryptPasswordEncoder() {
+    return new BCryptPasswordEncoder();
   }
 
   @Override
@@ -66,7 +68,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
       .and()
       // Add a filter to validate the tokens with every request (service will take
       // care of that)
-      .addFilterAfter(
+      .addFilterBefore(
         // This is where we hook our auth filter
         new AuthenticationFilter(authenticationService),
         UsernamePasswordAuthenticationFilter.class

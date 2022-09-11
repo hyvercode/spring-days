@@ -12,9 +12,4 @@ public class SpringDayApplication {
 		SpringApplication.run(SpringDayApplication.class, args);
 	}
 
-  @Bean
-  public BCryptPasswordEncoder bCryptPasswordEncoder() {
-    return new BCryptPasswordEncoder();
-  }
-
 }
