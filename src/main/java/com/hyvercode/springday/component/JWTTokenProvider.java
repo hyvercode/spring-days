@@ -4,25 +4,14 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.JWTVerifier;
-import com.hyvercode.springday.helpers.constant.SecurityConstants;
-import com.hyvercode.springday.model.entity.Role;
 import com.hyvercode.springday.model.entity.UserPrincipal;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
-
-import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.hyvercode.springday.helpers.constant.SecurityConstants.*;
-import static java.util.Arrays.stream;
-import static com.auth0.jwt.algorithms.Algorithm.HMAC512;
 
 @Component
 public class JWTTokenProvider {
@@ -42,12 +31,15 @@ public class JWTTokenProvider {
 
   private Algorithm algorithm;
 
+  public JWTTokenProvider(Algorithm algorithm) {
+    this.algorithm = algorithm;
+  }
+
   public String generateJwtToken(UserPrincipal userPrincipal) {
     String[] claims = getClaimsFromUser(userPrincipal);
 
     return JWT.create()
       .withIssuer(tokenIssuer)
-      .withAudience(internalServiceName)
       .withIssuedAt(new Date())
       .withSubject(userPrincipal.getUsername())
       .withClaim("roles", userPrincipal.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
@@ -60,37 +52,7 @@ public class JWTTokenProvider {
       .withIssuer(tokenIssuer)
       .withSubject(userPrincipal.getUsername())
       .withExpiresAt(new Date(System.currentTimeMillis()+ 8 * 60*60*1000))
-      .sign(Algorithm.HMAC512("SECRET"));
-  }
-
-
-  // permit to get authorities from the token
-  public List<GrantedAuthority> getAuthorities(String token) {
-    String[] claims = getClaimsFromToken(token);
-    return stream(claims).map(SimpleGrantedAuthority::new).collect(Collectors.toList());
-  }
-
-  public Authentication getAuthentication(String username, List<GrantedAuthority> authorities, HttpServletRequest request) {
-    UsernamePasswordAuthenticationToken userPasswordAuthToken = new
-      UsernamePasswordAuthenticationToken(username, null, authorities);
-    // set details of users in spring security details
-    userPasswordAuthToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-    return userPasswordAuthToken;
-  }
-
-  public boolean isTokenValid(String username, String token) {
-    JWTVerifier verifier = getJWTVerifier();
-    return StringUtils.isNotEmpty(username) && !isTokenExpired(verifier, token);
-  }
-
-  public String getSubject(String token) {
-    JWTVerifier verifier = getJWTVerifier();
-    return verifier.verify(token).getSubject();
-  }
-
-  private boolean isTokenExpired(JWTVerifier verifier, String token) {
-    Date expiration = verifier.verify(token).getExpiresAt();
-    return expiration.before(new Date());
+      .sign(algorithm);
   }
 
   private String[] getClaimsFromToken(String token) {
