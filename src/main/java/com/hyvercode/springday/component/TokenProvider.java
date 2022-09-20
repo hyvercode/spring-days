@@ -33,6 +33,8 @@ public class TokenProvider implements Serializable {
   @Value("${setting.service.internal.name}")
   private String internalServiceName;
 
+  private Algorithm algorithm;
+
   //generate token for user
   public String generateToken(User user) {
     return doGenerateToken(user, secret);
@@ -57,7 +59,7 @@ public class TokenProvider implements Serializable {
       .withKeyId(internalServiceSecret)
       .withIssuedAt(new Date(System.currentTimeMillis()))
       .withExpiresAt(new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY * 1000))
-      .sign(Algorithm.HMAC512("SECRET"));
+      .sign(algorithm);
   }
 
 }

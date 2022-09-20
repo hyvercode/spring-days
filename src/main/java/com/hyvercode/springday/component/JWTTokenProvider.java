@@ -40,6 +40,8 @@ public class JWTTokenProvider {
   @Value("${setting.service.internal.name}")
   private String internalServiceName;
 
+  private Algorithm algorithm;
+
   public String generateJwtToken(UserPrincipal userPrincipal) {
     String[] claims = getClaimsFromUser(userPrincipal);
 
@@ -50,7 +52,7 @@ public class JWTTokenProvider {
       .withSubject(userPrincipal.getUsername())
       .withClaim("roles", userPrincipal.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
       .withArrayClaim(AUTHORITIES, claims).withExpiresAt(new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY * 1000))
-      .sign(Algorithm.HMAC512("SECRET"));
+      .sign(algorithm);
   }
 
   public String refreshJwtToken(UserPrincipal userPrincipal) {
