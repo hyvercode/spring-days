@@ -50,14 +50,16 @@ public class User {
   @Column(name = "is_active")
   private Boolean isActive;
 
-  @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-  @JoinTable(
-    name = "users_roles",
-    joinColumns = @JoinColumn(name = "user_id"),
-    inverseJoinColumns = @JoinColumn(name = "role_id")
-  )
-  private Set<Role> roles = new HashSet<>();
-
   @Column(name = "deleted_time")
   private Timestamp deletedTime;
+
+  @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+  @JoinTable(name = "users_roles",
+    joinColumns = {
+      @JoinColumn(name = "user_id")
+    },
+    inverseJoinColumns = {
+      @JoinColumn(name = "role_id") })
+  private Set<Role> roles;
+
 }
