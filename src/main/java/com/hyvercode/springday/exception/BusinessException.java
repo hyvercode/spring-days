@@ -2,8 +2,6 @@ package com.hyvercode.springday.exception;
 
 import org.springframework.http.HttpStatus;
 
-import java.util.Map;
-
 public class BusinessException extends BaseException {
 
   public BusinessException(String errorCode, String errorDesc, String errorMessage) {

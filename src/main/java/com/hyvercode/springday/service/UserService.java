@@ -9,6 +9,7 @@ import com.hyvercode.springday.model.request.UserRequest;
 import com.hyvercode.springday.repository.RoleRepository;
 import com.hyvercode.springday.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -26,7 +27,6 @@ public class UserService {
   private BCryptPasswordEncoder bCryptPasswordEncoder;
 
   private final RoleRepository roleRepository;
-
 
   public UserService(UserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder, RoleRepository roleRepository) {
     this.userRepository = userRepository;

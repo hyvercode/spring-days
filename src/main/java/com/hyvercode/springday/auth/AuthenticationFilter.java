@@ -1,6 +1,5 @@
 package com.hyvercode.springday.auth;
 
-import com.hyvercode.springday.component.JWTTokenProvider;
 import com.hyvercode.springday.helpers.constant.SecurityConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -17,9 +16,6 @@ public class AuthenticationFilter extends OncePerRequestFilter {
 
 
   private SecurityContextService authenticationService;
-
-  @Autowired
-  private JWTTokenProvider jwtTokenProvider;
 
   public AuthenticationFilter(SecurityContextService authenticationService) {
     this.authenticationService = authenticationService;

@@ -1,6 +1,5 @@
 package com.hyvercode.springday.exception;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
