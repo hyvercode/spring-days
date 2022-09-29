@@ -1,13 +1,12 @@
 package com.hyvercode.springday.feign.config;
 
 
-import com.hyvercode.springday.feign.FeignClientApi;
+import com.hyvercode.springday.feign.api.FeignClientApi;
 import feign.Feign;
 import feign.codec.Decoder;
 import feign.codec.Encoder;
 import feign.codec.ErrorDecoder;
 import lombok.val;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.openfeign.FeignClientsConfiguration;
 import org.springframework.context.annotation.Bean;

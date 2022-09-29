@@ -1,4 +1,4 @@
-package com.hyvercode.springday.feign;
+package com.hyvercode.springday.feign.api;
 
 import com.hyvercode.springday.helpers.base.BaseResponseBuilder;
 import com.hyvercode.springday.model.response.RoleResponse;

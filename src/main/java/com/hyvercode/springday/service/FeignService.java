@@ -1,6 +1,6 @@
 package com.hyvercode.springday.service;
 
-import com.hyvercode.springday.feign.FeignClientApi;
+import com.hyvercode.springday.feign.api.FeignClientApi;
 import com.hyvercode.springday.model.response.RoleResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
