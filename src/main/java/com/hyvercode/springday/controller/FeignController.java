@@ -7,6 +7,8 @@ import com.hyvercode.springday.service.FeignService;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/feigns")
 public class FeignController {
@@ -19,7 +21,7 @@ public class FeignController {
 
   @GetMapping(value = "/roles", produces = MediaType.APPLICATION_JSON_VALUE)
   @ResponseBody
-  public BaseResponse roleResponse(){
+  public List<RoleResponse> roleResponse(){
     return feignService.get();
   }
 }

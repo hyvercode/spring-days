@@ -41,7 +41,7 @@ management:
 setting:
   service:
     internal:
-      name: 'bfi-tms-backoffice'
+      name: 'spring-days'
       key: INTERNAL_KEY
   jwt:
     token:
@@ -62,7 +62,7 @@ feign:
   autoconfiguration:
     jackson:
       enabled: true
-
-client:
-  post:
-    baseUrl: http://localhost:8080/bfi-treasury-auth-api
+  api:
+    bfi-treasury-auth-api:
+      baseUrl: http://localhost:8080/bfi-treasury-auth-api
+      key: INTERNAL_KEY

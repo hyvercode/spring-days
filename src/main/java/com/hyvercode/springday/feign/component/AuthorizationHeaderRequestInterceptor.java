@@ -1,4 +1,4 @@
-package com.hyvercode.springday.component;
+package com.hyvercode.springday.feign.component;
 
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
@@ -9,7 +9,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import javax.servlet.http.HttpServletRequest;
 
 @Component
-public class HeaderRequestInterceptor implements RequestInterceptor {
+public class AuthorizationHeaderRequestInterceptor implements RequestInterceptor {
   public static final String AUTHORIZATION_HEADER_KEY = "Authorization";
 
   @Override
