@@ -1,7 +1,5 @@
 package com.hyvercode.springday.controller;
 
-import com.hyvercode.springday.helpers.base.BaseResponse;
-import com.hyvercode.springday.helpers.base.BaseResponseBuilder;
 import com.hyvercode.springday.model.response.RoleResponse;
 import com.hyvercode.springday.service.FeignService;
 import org.springframework.http.MediaType;

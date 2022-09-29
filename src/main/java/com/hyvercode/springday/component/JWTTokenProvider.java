@@ -55,22 +55,6 @@ public class JWTTokenProvider {
       .sign(algorithm);
   }
 
-  private String[] getClaimsFromToken(String token) {
-    JWTVerifier verifier = getJWTVerifier();
-    return verifier.verify(token).getClaim(AUTHORITIES).asArray(String.class);
-  }
-
-  private JWTVerifier getJWTVerifier() {
-    JWTVerifier verifier;
-    try {
-      Algorithm algorithm = Algorithm.HMAC512(secret);
-      verifier = JWT.require(algorithm).withIssuer(internalServiceName).build();
-    }catch (JWTVerificationException exception) {
-      throw new JWTVerificationException("Invalid token");
-    }
-    return verifier;
-  }
-
   private String[] getClaimsFromUser(UserPrincipal user) {
     List<String> authorities = new ArrayList<>();
     for (GrantedAuthority grantedAuthority : user.getAuthorities()){

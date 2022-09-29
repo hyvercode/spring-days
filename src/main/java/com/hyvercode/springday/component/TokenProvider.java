@@ -12,13 +12,12 @@ import org.springframework.stereotype.Component;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Date;
-import java.util.List;
 import java.util.UUID;
 
 import static com.hyvercode.springday.helpers.constant.SecurityConstants.TOKEN_USER_ID_CLAIM_KEY;
 
 @Component
-public class TokenProvider implements Serializable {
+public class TokenProvider{
   public static final long JWT_TOKEN_VALIDITY = 720 * 60 * 60L; //30d
 
   @Value("${setting.jwt.token.issuer}")
@@ -35,14 +34,11 @@ public class TokenProvider implements Serializable {
 
   private Algorithm algorithm;
 
-  //generate token for user
-  public String generateToken(User user) {
-    return doGenerateToken(user, secret);
+  public TokenProvider(Algorithm algorithm) {
+    this.algorithm = algorithm;
   }
 
-
-  @Profile({"local", "local-standalone", "test", "unit-test"})
-  private String doGenerateToken(User users, String secret) {
+  private String generateToken(User users) {
 
     String[] roles = users.getRoles().stream().map(Role::getName).toList().toArray(new String[0]);
 

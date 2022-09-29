@@ -2,10 +2,7 @@ package com.hyvercode.springday.auth;
 
 import com.hyvercode.springday.component.JWTTokenProvider;
 import com.hyvercode.springday.helpers.constant.SecurityConstants;
-import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -15,8 +12,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.List;
-
 @Component
 public class AuthenticationFilter extends OncePerRequestFilter {
 
