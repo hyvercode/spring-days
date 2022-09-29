@@ -28,7 +28,7 @@ public class GlobalExceptionHandler {
     errorResponse.setCode(DEFAULT_ERROR_CODE);
     errorResponse.setMessage("Internal server error");
 
-    return getErrorResponseResponseEntity(HttpStatus.NOT_FOUND, errorResponse);
+    return getErrorResponseResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR, errorResponse);
   }
 
 
@@ -36,22 +36,11 @@ public class GlobalExceptionHandler {
   public ResponseEntity<ErrorResponse> renderBusinessErrorResponse(BusinessException exception) {
     log.error("BusinessException occurred: ", exception);
     ErrorResponse errorResponse = new ErrorResponse();
-    errorResponse.setTitle(exception.getTitle());
+    errorResponse.setTitle("Error Business Exception");
     errorResponse.setCode(exception.errorCode);
     errorResponse.setMessage(exception.getMessage());
 
     return getErrorResponseResponseEntity(exception.getHttpStatus(), errorResponse);
-  }
-
-  @ExceptionHandler(MethodArgumentNotValidException.class)
-  public ResponseEntity<ErrorResponse> renderMethodArgumentErrorResponse(MethodArgumentNotValidException exception) {
-    log.error("MethodArgumentNotValidException occurred: ", exception);
-
-    ErrorResponse errorResponse = new ErrorResponse();
-    errorResponse.setCode(DEFAULT_ERROR_CODE);
-    errorResponse.setMessage("Method Argument Not Valid Exception");
-
-    return getErrorResponseResponseEntity(HttpStatus.BAD_REQUEST, errorResponse);
   }
 
   @ExceptionHandler(HttpServerErrorException.class)
