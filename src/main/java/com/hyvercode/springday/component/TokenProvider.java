@@ -38,7 +38,7 @@ public class TokenProvider{
     this.algorithm = algorithm;
   }
 
-  private String generateToken(User users) {
+  public String generateToken(User users) {
 
     String[] roles = users.getRoles().stream().map(Role::getName).toList().toArray(new String[0]);
 
