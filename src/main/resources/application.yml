@@ -14,6 +14,8 @@ server:
     include-message: always
   servlet:
     context-path: "/spring-days"
+  port: 8888
+
 
 management:
   health:

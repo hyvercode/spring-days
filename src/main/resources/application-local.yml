@@ -51,3 +51,18 @@ setting:
       filePassword: 'P@ssw0rd'
       keyName: 'jwt_key'
       keyPassword: 'P@ssw0rd'
+
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: 5000
+        readTimeout: 5000
+        loggerLevel: BASIC
+  autoconfiguration:
+    jackson:
+      enabled: true
+
+client:
+  post:
+    baseUrl: http://localhost:8080/bfi-treasury-auth-api
