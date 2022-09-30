@@ -1,11 +1,9 @@
 package com.hyvercode.springday.exception;
 
-import io.micrometer.core.instrument.util.StringUtils;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -28,7 +26,7 @@ public class GlobalExceptionHandler {
     errorResponse.setCode(DEFAULT_ERROR_CODE);
     errorResponse.setMessage("Internal server error");
 
-    return getErrorResponseResponseEntity(HttpStatus.NOT_FOUND, errorResponse);
+    return getErrorResponseResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR, errorResponse);
   }
 
 
@@ -36,22 +34,11 @@ public class GlobalExceptionHandler {
   public ResponseEntity<ErrorResponse> renderBusinessErrorResponse(BusinessException exception) {
     log.error("BusinessException occurred: ", exception);
     ErrorResponse errorResponse = new ErrorResponse();
-    errorResponse.setTitle(exception.getTitle());
+    errorResponse.setTitle("Error Business Exception");
     errorResponse.setCode(exception.errorCode);
     errorResponse.setMessage(exception.getMessage());
 
     return getErrorResponseResponseEntity(exception.getHttpStatus(), errorResponse);
-  }
-
-  @ExceptionHandler(MethodArgumentNotValidException.class)
-  public ResponseEntity<ErrorResponse> renderMethodArgumentErrorResponse(MethodArgumentNotValidException exception) {
-    log.error("MethodArgumentNotValidException occurred: ", exception);
-
-    ErrorResponse errorResponse = new ErrorResponse();
-    errorResponse.setCode(DEFAULT_ERROR_CODE);
-    errorResponse.setMessage("Method Argument Not Valid Exception");
-
-    return getErrorResponseResponseEntity(HttpStatus.BAD_REQUEST, errorResponse);
   }
 
   @ExceptionHandler(HttpServerErrorException.class)

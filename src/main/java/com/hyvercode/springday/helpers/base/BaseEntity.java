@@ -6,23 +6,39 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Data
 @MappedSuperclass
 public class BaseEntity implements Serializable {
-    @Column(name = "created_by", length = 50, nullable = false)
-    private String createdBy;
 
-    @Column(name = "created_time", nullable = false, updatable=false)
-    @CreationTimestamp
-    private Timestamp createdTime;
+  private static final long serialVersionUID = -278971545601962170L;
 
-    @Column(name = "updated_by", length = 50)
-    private String updatedBy;
+  @Column(name = "created_by", length = 50, nullable = false)
+  private String createdBy;
 
-    @Column(name = "updated_time")
-    @UpdateTimestamp
-    private Timestamp updatedTime;
+  @Column(name = "created_time", nullable = false, updatable = false)
+  @CreationTimestamp
+  private Timestamp createdTime;
+
+  @Column(name = "updated_by", length = 50)
+  private String updatedBy;
+
+  @Column(name = "updated_time")
+  @UpdateTimestamp
+  private Timestamp updatedTime;
+
+  @PrePersist
+  void onCreate() {
+    this.createdTime = new Timestamp(System.currentTimeMillis());
+  }
+
+  @PreUpdate
+  void onUpdate() {
+    this.updatedTime = new Timestamp(System.currentTimeMillis());
+  }
 }

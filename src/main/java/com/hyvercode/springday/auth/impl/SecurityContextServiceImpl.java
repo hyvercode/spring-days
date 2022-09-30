@@ -18,7 +18,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.StringUtils;
 
 import java.util.Arrays;
-import java.util.stream.Collectors;
 import java.util.UUID;
 
 @Slf4j
@@ -41,13 +40,10 @@ public class SecurityContextServiceImpl implements SecurityContextService {
     UsernamePasswordAuthenticationToken tokenUser = null;
     try {
       // Decode token
-      DecodedJWT jwtToken = JWT
-        .require(tokenAlgorithm)
-        .withIssuer(tokenIssuer)
-        .build()
-        .verify(token);
+      DecodedJWT jwtToken = JWT.require(tokenAlgorithm).withIssuer(tokenIssuer).build().verify(token);
 
-      tokenUser = new UsernamePasswordAuthenticationToken(
+      tokenUser =
+        new UsernamePasswordAuthenticationToken(
           // Principal - Actual Decoded Token object
           jwtToken,
           // Password - Empty Password
@@ -77,11 +73,7 @@ public class SecurityContextServiceImpl implements SecurityContextService {
           secret,
           internalServiceName,
           internalServiceName,
-          Arrays.asList(
-            new SimpleGrantedAuthority(
-              SecurityConstants.AuthenticationClaim.SYSTEM_SERVICE.toString()
-            )
-          ),
+          Arrays.asList(new SimpleGrantedAuthority(SecurityConstants.AuthenticationClaim.SYSTEM_SERVICE.toString())),
           null
         );
     }
@@ -93,10 +85,7 @@ public class SecurityContextServiceImpl implements SecurityContextService {
   public String getCurrentUserId() {
     String currentUserId = "";
     if (getCurrentDecodedJwt() != null) {
-      currentUserId =
-        getCurrentDecodedJwt()
-          .getClaim(SecurityConstants.TOKEN_USER_ID_CLAIM_KEY)
-          .asString();
+      currentUserId = getCurrentDecodedJwt().getClaim(SecurityConstants.TOKEN_USER_ID_CLAIM_KEY).asString();
     }
 
     return currentUserId;
@@ -136,10 +125,7 @@ public class SecurityContextServiceImpl implements SecurityContextService {
   public String getDeviceId() {
     String deviceId = null;
     if (getCurrentDecodedJwt() != null) {
-      deviceId =
-        getCurrentDecodedJwt()
-          .getClaim(SecurityConstants.TOKEN_DEVICE_ID_CLAIM_KEY)
-          .asString();
+      deviceId = getCurrentDecodedJwt().getClaim(SecurityConstants.TOKEN_DEVICE_ID_CLAIM_KEY).asString();
     }
 
     return deviceId;
@@ -149,10 +135,7 @@ public class SecurityContextServiceImpl implements SecurityContextService {
   public String getCurrentUserEmail() {
     String email = "";
     if (getCurrentDecodedJwt() != null) {
-      email =
-        getCurrentDecodedJwt()
-          .getClaim(SecurityConstants.TOKEN_EMAIL_CLAIM_KEY)
-          .asArray(String.class)[0];
+      email = getCurrentDecodedJwt().getClaim(SecurityConstants.TOKEN_EMAIL_CLAIM_KEY).asArray(String.class)[0];
     }
 
     return email;
@@ -163,6 +146,6 @@ public class SecurityContextServiceImpl implements SecurityContextService {
       .getContext()
       .getAuthentication()
       .getPrincipal();
-    return (principal instanceof DecodedJWT ? (DecodedJWT) principal : null);
+    return (DecodedJWT) principal;
   }
 }

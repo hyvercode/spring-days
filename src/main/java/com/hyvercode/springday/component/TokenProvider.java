@@ -6,10 +6,8 @@ import com.hyvercode.springday.helpers.constant.SecurityConstants;
 import com.hyvercode.springday.model.entity.Role;
 import com.hyvercode.springday.model.entity.User;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
-import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.UUID;
@@ -32,7 +30,7 @@ public class TokenProvider{
   @Value("${setting.service.internal.name}")
   private String internalServiceName;
 
-  private Algorithm algorithm;
+  private final Algorithm algorithm;
 
   public TokenProvider(Algorithm algorithm) {
     this.algorithm = algorithm;
@@ -47,7 +45,7 @@ public class TokenProvider{
       .withIssuer(tokenIssuer)
       .withClaim(TOKEN_USER_ID_CLAIM_KEY, users.getUserId())
       .withClaim(SecurityConstants.TOKEN_DEVICE_ID_CLAIM_KEY, users.getDeviceId())
-      .withSubject(users.getPassword())
+      .withSubject(users.getUsername())
       .withClaim(SecurityConstants.TOKEN_EMAIL_CLAIM_KEY, users.getEmail())
       .withClaim(SecurityConstants.TOKEN_ROLES_CLAIM_KEY, Arrays.asList(roles))
       .withClaim(SecurityConstants.AuthenticationClaim.SYSTEM_SERVICE.toString(), internalServiceName)

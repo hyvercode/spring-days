@@ -13,7 +13,7 @@ public final class PageableUtil {
 
   private static final String ASC_VALUE = "ASC";
 
-  private static final String SORT="([a-z]+[A-Z]+\\w+)+";
+  private static final String SORT="[a-zA-Z]";
   private PageableUtil() {
 
   }
