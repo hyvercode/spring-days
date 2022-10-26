@@ -3,6 +3,7 @@ package com.hyvercode.springday.controller;
 import com.hyvercode.springday.helpers.base.BasePaginationRequest;
 import com.hyvercode.springday.helpers.base.EmptyResponse;
 import com.hyvercode.springday.model.request.ProductRequest;
+import com.hyvercode.springday.model.response.ProductCategoryViewResponse;
 import com.hyvercode.springday.model.response.product.PageProductResponse;
 import com.hyvercode.springday.model.response.product.ProductResponse;
 import com.hyvercode.springday.service.ProductService;
@@ -56,5 +57,11 @@ public class ProductController {
   @ResponseBody
   public EmptyResponse deleteProduct(@PathVariable("product-id") String productId) {
     return productService.delete(productId);
+  }
+
+  @GetMapping(value = "/view/{product-id}", produces = MediaType.APPLICATION_JSON_VALUE)
+  @ResponseBody
+  public ProductCategoryViewResponse getProductCategoryByProductId(@PathVariable("product-id") String productId) {
+    return productService.findByProductId(productId);
   }
 }

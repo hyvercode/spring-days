@@ -22,17 +22,17 @@ public class ApiFeignClientConfig {
 
   private final Decoder decoder;
 
-  @Value("${feign.api.bfi-treasury-auth-api.baseUrl}")
+  @Value("${feign.api.bfi.treasury.auth-api.url}")
   private String bfiTreasuryAuthApiBaseUrl;
 
-  @Value("${feign.api.bfi-treasury-auth-api.key}")
+  @Value("${feign.api.bfi.treasury.auth-api.key}")
   private String bfiTreasuryAuthApiKey;
 
 
-  @Value("${feign.api.bfi-treasury-backoffice-api.baseUrl}")
+  @Value("${feign.api.bfi.treasury.backoffice-api.url}")
   private String bfiTreasuryBackofficeApiBaseUrl;
 
-  @Value("${feign.api.bfi-treasury-backoffice-api.key}")
+  @Value("${feign.api.bfi.treasury.backoffice-api.key}")
   private String bfiTreasuryBackofficeApiKey;
 
   public ApiFeignClientConfig(Encoder encoder, Decoder decoder) {

@@ -11,7 +11,9 @@ import com.hyvercode.springday.model.dto.ProductInventoryDto;
 import com.hyvercode.springday.model.entity.Product;
 import com.hyvercode.springday.model.entity.ProductCategory;
 import com.hyvercode.springday.model.entity.ProductInventory;
+import com.hyvercode.springday.model.projection.ProductCategoryView;
 import com.hyvercode.springday.model.request.ProductRequest;
+import com.hyvercode.springday.model.response.ProductCategoryViewResponse;
 import com.hyvercode.springday.model.response.product.PageProductResponse;
 import com.hyvercode.springday.model.response.product.ProductResponse;
 import com.hyvercode.springday.repository.ProductCategoryRepository;
@@ -225,5 +227,24 @@ public class ProductService {
     productRepository.deleteById(id);
 
     return new EmptyResponse();
+  }
+
+  public ProductCategoryViewResponse findByProductId(String id) {
+    Optional<ProductCategoryView> optionalProduct = productRepository.findByProductId(id);
+    if (optionalProduct.isEmpty()) {
+      log.info(ErrorConstant.ERROR_MESSAGE_01 + "{}", id);
+      throw new BusinessException(HttpStatus.CONFLICT, ErrorConstant.ERROR_CODE_01, ErrorConstant.ERROR_MESSAGE_01);
+    }
+    ProductCategoryView product = optionalProduct.get();
+
+    return ProductCategoryViewResponse.builder()
+      .productId(product.getProductId())
+      .productName(product.getProductName())
+      .sku(product.getSku())
+      .productCategoryId(product.getProductCategoryId())
+      .productCategoryName(product.getProductCategoryName())
+      .price(product.getPrice())
+      .isActive(product.getIsActive())
+      .build();
   }
 }
