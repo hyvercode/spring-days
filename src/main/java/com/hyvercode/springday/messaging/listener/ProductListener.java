@@ -40,7 +40,11 @@ public class ProductListener {
       return;
     }
 
-    log.debug("{}:{}", idempotencyKey, message);
+    var request = objectMapper.readValue(
+      message.getBody(), Object.class
+    );
+
+    log.debug("{}:{}", idempotencyKey, request);
 
     idempotencyKey.ifPresent(key -> rabbitmqCommonService.putOnCache(key.toString()));
   }
