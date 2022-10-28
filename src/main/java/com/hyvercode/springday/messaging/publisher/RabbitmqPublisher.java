@@ -27,9 +27,6 @@ public class RabbitmqPublisher {
   @Autowired
   private ObjectMapper objectMapper;
 
-  @Autowired
-  private ProductRepository productRepository;
-
   @Value("${spring.rabbitmq.queue.name}")
   String queueName;
 
