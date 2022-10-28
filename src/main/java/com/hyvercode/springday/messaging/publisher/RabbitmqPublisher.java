@@ -3,7 +3,6 @@ package com.hyvercode.springday.messaging.publisher;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hyvercode.springday.helpers.constant.RabbitmqPublisherConstants;
-import com.hyvercode.springday.repository.ProductRepository;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.core.MessageProperties;

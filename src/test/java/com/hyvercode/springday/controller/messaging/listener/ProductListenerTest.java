@@ -8,6 +8,7 @@ import com.hyvercode.springday.messaging.service.RabbitmqCommonService;
 import com.hyvercode.springday.model.entity.Product;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -40,7 +41,7 @@ class ProductListenerTest {
   @Mock
   Message message;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     this.rabbitTemplateMock = Mockito.mock(RabbitTemplate.class);
     this.productListener = new ProductListener(objectMapper,rabbitmqCommonService);
