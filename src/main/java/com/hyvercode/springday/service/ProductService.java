@@ -1,11 +1,14 @@
 package com.hyvercode.springday.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.hyvercode.springday.auth.SecurityContextService;
 import com.hyvercode.springday.exception.BusinessException;
 import com.hyvercode.springday.helpers.ErrorConstant;
 import com.hyvercode.springday.helpers.base.BasePaginationRequest;
 import com.hyvercode.springday.helpers.base.EmptyResponse;
 import com.hyvercode.springday.helpers.utils.PageableUtil;
+import com.hyvercode.springday.messaging.publisher.RabbitmqPublisher;
+import com.hyvercode.springday.messaging.service.RabbitmqCommonService;
 import com.hyvercode.springday.model.dto.ProductCategoryDto;
 import com.hyvercode.springday.model.dto.ProductInventoryDto;
 import com.hyvercode.springday.model.entity.Product;
@@ -30,10 +33,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -47,11 +47,14 @@ public class ProductService {
 
   private final SecurityContextService securityContextService;
 
-  public ProductService(ProductRepository productRepository, ProductCategoryRepository productCategoryRepository, ProductInventoryRepository productInventoryRepository, SecurityContextService securityContextService) {
+  private final RabbitmqPublisher rabbitmqPublisher;
+
+  public ProductService(ProductRepository productRepository, ProductCategoryRepository productCategoryRepository, ProductInventoryRepository productInventoryRepository, SecurityContextService securityContextService, RabbitmqPublisher rabbitmqPublisher) {
     this.productRepository = productRepository;
     this.productCategoryRepository = productCategoryRepository;
     this.productInventoryRepository = productInventoryRepository;
     this.securityContextService = securityContextService;
+    this.rabbitmqPublisher = rabbitmqPublisher;
   }
 
   /**
@@ -176,8 +179,13 @@ public class ProductService {
       .build();
     product.setCreatedBy(ErrorConstant.CREATOR);
     product.setCreatedTime(new Timestamp(System.currentTimeMillis()));
-    productRepository.save(product);
+    var productResult = productRepository.save(product);
 
+    try {
+      rabbitmqPublisher.storeAndSend("PRODUCT", productResult);
+    } catch (JsonProcessingException e) {
+      log.info(e.getMessage());
+    }
     return new EmptyResponse();
   }
 

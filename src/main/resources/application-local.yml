@@ -5,19 +5,45 @@ spring:
     driverClassName: org.postgresql.Driver
     username: postgres
     password: root
+  main:
+    banner-mode: off
+  jackson:
+    property-naming-strategy: LOWER_CAMEL_CASE
+  cache:
+    type: REDIS
+    redis:
+      cache-null-values: true
+      key-prefix: spring-days
+      time-to-live: 1h
 
   # Rabbitmq3 Config
   rabbitmq:
     port: 5672
-    host:  rabbitmq3
+    host: localhost
     username: guest
     password: guest
     queue:
-      name: spring-days
+      name: queue.spring-days
+    exchange : exchange.spring-days
+    routingkey: routingkey.spring-days
+    publisher-confirm-type: CORRELATED
+    publisher-returns: true
+    template:
+      mandatory: true
+    cache:
+      channel:
+        size: 5
+    listener: # blocking!
+      simple:
+        retry:
+          enabled: true
+          initial-interval: 3000
+          max-attempts: 5
+
 
   # Redis Config
   redis:
-    host: redis
+    host: localhost
     port: 6379
 
 logging:
