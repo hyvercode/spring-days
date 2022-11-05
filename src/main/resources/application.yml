@@ -61,6 +61,10 @@ spring:
     port: ${SPRING_RABBITMQ_PORT}
     username: ${SPRING_RABBITMQ_USERNAME}
     password: ${SPRING_RABBITMQ_PASSWORD}
+    queue:
+      name: queue.spring-days
+    exchange: exchange.spring-days
+    routingkey: routingkey.spring-days
     publisher-confirm-type: CORRELATED
     publisher-returns: true
     template:
