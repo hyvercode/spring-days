@@ -1,7 +1,6 @@
 package com.hyvercode.springday.messaging.service;
 
 import com.hyvercode.springday.config.CacheConfig;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
@@ -10,8 +9,11 @@ import java.util.Optional;
 @Service
 public class RabbitmqCommonService {
 
-  @Autowired
   private RedisTemplate<String, Boolean> redisTemplateGenericBoolean;
+
+  public RabbitmqCommonService(RedisTemplate<String, Boolean> redisTemplateGenericBoolean) {
+    this.redisTemplateGenericBoolean = redisTemplateGenericBoolean;
+  }
 
   private String buildCacheKey(String idempotencyKey) {
     return String.join(

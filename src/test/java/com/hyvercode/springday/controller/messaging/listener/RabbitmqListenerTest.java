@@ -3,11 +3,10 @@ package com.hyvercode.springday.controller.messaging.listener;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hyvercode.springday.helpers.constant.RabbitmqPublisherConstants;
-import com.hyvercode.springday.messaging.listener.ProductListener;
+import com.hyvercode.springday.messaging.listener.RabbitmqListener;
 import com.hyvercode.springday.messaging.service.RabbitmqCommonService;
 import com.hyvercode.springday.model.entity.Product;
 import org.apache.commons.lang3.StringUtils;
-import org.junit.Before;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -26,10 +25,10 @@ import java.util.Optional;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatCode;
 
 @ExtendWith(MockitoExtension.class)
-class ProductListenerTest {
+class RabbitmqListenerTest {
 
   @InjectMocks
-  private ProductListener productListener;
+  private RabbitmqListener productListener;
   @Mock
   private ObjectMapper objectMapper;
   @Mock
@@ -44,7 +43,7 @@ class ProductListenerTest {
   @BeforeEach
   public void setUp() {
     this.rabbitTemplateMock = Mockito.mock(RabbitTemplate.class);
-    this.productListener = new ProductListener(objectMapper,rabbitmqCommonService);
+    this.productListener = new RabbitmqListener(objectMapper,rabbitmqCommonService);
   }
 
   @Test

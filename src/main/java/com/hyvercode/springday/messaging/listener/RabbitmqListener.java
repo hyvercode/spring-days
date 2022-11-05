@@ -13,12 +13,12 @@ import java.util.Optional;
 
 @Component
 @Slf4j
-public class ProductListener {
+public class RabbitmqListener {
 
   private ObjectMapper objectMapper;
   private RabbitmqCommonService rabbitmqCommonService;
 
-  public ProductListener(ObjectMapper objectMapper, RabbitmqCommonService rabbitmqCommonService) {
+  public RabbitmqListener(ObjectMapper objectMapper, RabbitmqCommonService rabbitmqCommonService) {
     this.objectMapper = objectMapper;
     this.rabbitmqCommonService = rabbitmqCommonService;
   }
