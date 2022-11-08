@@ -46,6 +46,18 @@ spring:
     host: localhost
     port: 6379
 
+  #Mail
+  mail:
+    host:  ${EMAIL_HOST}
+    port: 587
+    username: ${EMAIL_USERNAME}
+    password: ${EMAIL_PASSWORD}
+    smtp:
+      auth: true
+      starttls:
+        enable: true
+    sender: noreply@hyvercode.com
+
 logging:
   level:
     org:
