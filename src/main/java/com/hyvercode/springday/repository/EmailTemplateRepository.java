@@ -9,5 +9,5 @@ import java.util.Optional;
 @Repository
 public interface EmailTemplateRepository extends CrudRepository<EmailTemplate,String> {
 
-  Optional<EmailTemplate> findByEventCode(String eventCode);
+  Optional<EmailTemplate> findByEmailCode(String emailCode);
 }

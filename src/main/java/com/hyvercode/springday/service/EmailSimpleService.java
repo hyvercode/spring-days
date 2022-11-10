@@ -22,14 +22,14 @@ public class EmailSimpleService {
   }
 
   public EmptyResponse execute(EmailTemplateRequest request) {
-    return emailTemplateRepository.findByEventCode(request.getEventCode())
+    return emailTemplateRepository.findByEmailCode(request.getEmailCode())
       .map(titleAndContentOnly -> this.doExecute(request))
       .orElseThrow(() -> {
         throw new BusinessException(
           HttpStatus.CONFLICT,
           "80000",
           "email template not found",
-          "email template not found for eventCode: " + request.getEventCode()
+          "email template not found for eventCode: " + request.getEmailCode()
         );
       });
   }

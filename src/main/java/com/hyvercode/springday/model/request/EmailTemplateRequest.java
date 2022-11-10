@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class EmailTemplateRequest extends BaseRequest {
 
-  private String eventCode;
+  private String emailCode;
   private String recipient;
   private String msgBody;
   private String subject;

@@ -35,14 +35,14 @@ public class EmailTemplateService {
   }
 
   public EmptyResponse execute(EmailTemplateRequest request) {
-    return emailTemplateRepository.findByEventCode(request.getEventCode())
+    return emailTemplateRepository.findByEmailCode(request.getEmailCode())
       .map(emailTemplate -> this.doExecute(request,emailTemplate))
       .orElseThrow(() -> {
         throw new BusinessException(
           HttpStatus.CONFLICT,
           "80000",
           "email template not found",
-          "email template not found for eventCode: " + request.getEventCode()
+          "email template not found for eventCode: " + request.getEmailCode()
         );
       });
   }
@@ -51,14 +51,16 @@ public class EmailTemplateService {
     var emailAddress = request.getRecipient();
     var title = request.getSubject();
 
-    log.info("Content {}",emailTemplate.getEnContent());
+    log.info("Content {}",emailTemplate.getContent());
 
-    var body = emailTemplate.getEnContent();
+    var body = emailTemplate.getContent();
     Map<String, Object> parameters = new HashMap<>();
     parameters.put("subject",request.getSubject());
-    parameters.put("from",request.getRecipient());
-    parameters.put("body",request.getMsgBody());
-    parameters.put("date",new Date());
+    parameters.put("toAccountName",request.getRecipient());
+    parameters.put("note",request.getMsgBody());
+    parameters.put("transactionTime",new Date());
+    parameters.put("fromAccountName","BFI Treasury");
+    parameters.put("fromAccountNumber","098487817471264");
     var enrichedTemplate = templatingEngine.transform(body, parameters);
 
     this.sendEmailAndLog(emailAddress, title, enrichedTemplate);
