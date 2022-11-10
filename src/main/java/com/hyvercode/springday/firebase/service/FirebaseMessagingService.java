@@ -34,7 +34,6 @@ public class FirebaseMessagingService {
 
     return firebaseMessaging.send(message);
   }
-
   public String sendNotificationTopic(Note note, String topic) throws FirebaseMessagingException {
     Notification notification = Notification
       .builder()
