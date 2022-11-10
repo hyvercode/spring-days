@@ -17,7 +17,7 @@ class TemplatingEngineTest {
     TemplatingEngine templatingEngine = new TemplatingEngine();
 
     @Test
-    public void generateTemplateEmptyParameterTest() {
+     void generateTemplateEmptyParameterTest() {
         final String RAW_TEMPLATE = "Dear customer, this is a testing email. Please don't mind this.";
 
         final String RAW_TEMPLATE_RESULT = "Dear customer, this is a testing email. Please don't mind this.";
@@ -29,7 +29,7 @@ class TemplatingEngineTest {
     }
 
     @Test
-    public void generateTemplateFormatErrorTest() {
+     void generateTemplateFormatErrorTest() {
         final String RAW_TEMPLATE = "Dear $format.username(USERNAME), this is a testing email. Please don't mind this.";
 
         Map<String, Object> parameters = new HashMap<>();
@@ -43,7 +43,7 @@ class TemplatingEngineTest {
     }
 
     @Test
-    public void generateTemplateCurrencyAndDateLongFormatTest() {
+     void generateTemplateCurrencyAndDateLongFormatTest() {
         final String RAW_TEMPLATE = "" +
                 "Dear $USER_NAME" +
                 "<BR><BR>" +
@@ -104,7 +104,7 @@ class TemplatingEngineTest {
     }
 
     @Test
-    public void generateTemplateSmsCurrencyAndMaskAndDateShortAndTime24FormatTest() {
+     void generateTemplateSmsCurrencyAndMaskAndDateShortAndTime24FormatTest() {
         final String RAW_TEMPLATE = "" +
                 "Dear $USER_NAME" +
                 "<BR><BR>" +
@@ -175,7 +175,7 @@ class TemplatingEngineTest {
     }
 
     @Test
-    public void generateTemplateTime12Test() {
+     void generateTemplateTime12Test() {
         final String RAW_TEMPLATE = "" +
                 "As of $format.time12($DATETIME,\"id-ID\")" +
                 "<BR><BR>" +
