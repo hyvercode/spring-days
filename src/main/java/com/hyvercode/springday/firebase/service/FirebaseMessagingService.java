@@ -34,4 +34,21 @@ public class FirebaseMessagingService {
 
     return firebaseMessaging.send(message);
   }
+
+  public String sendNotificationTopic(Note note, String topic) throws FirebaseMessagingException {
+    Notification notification = Notification
+      .builder()
+      .setTitle(note.getSubject())
+      .setBody(note.getContent())
+      .setImage(note.getImage())
+      .build();
+
+    Message message = Message
+      .builder()
+      .setTopic(topic)
+      .setNotification(notification)
+      .putAllData(note.getData())
+      .build();
+    return firebaseMessaging.send(message);
+  }
 }
