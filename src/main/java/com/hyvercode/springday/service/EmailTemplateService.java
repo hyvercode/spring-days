@@ -5,6 +5,7 @@ import com.hyvercode.springday.mail.model.EmailProperties;
 import com.hyvercode.springday.mail.service.EmailService;
 import com.hyvercode.springday.exception.BusinessException;
 import com.hyvercode.springday.helpers.base.EmptyResponse;
+import com.hyvercode.springday.model.dto.TimeDepositDto;
 import com.hyvercode.springday.model.entity.EmailTemplate;
 import com.hyvercode.springday.model.request.EmailTemplateRequest;
 import com.hyvercode.springday.repository.EmailTemplateRepository;
@@ -13,9 +14,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.math.BigDecimal;
+import java.util.*;
 
 @Slf4j
 @Service
@@ -53,6 +53,24 @@ public class EmailTemplateService {
 
     log.info("Content {}",emailTemplate.getContent());
 
+    List<TimeDepositDto>timeDepositList = new ArrayList<>();
+    timeDepositList.add(TimeDepositDto.builder()
+        .depositAmount(new BigDecimal("10000"))
+        .depositInterestRate(1.6F)
+        .periodeFrom(new Date())
+        .periodeTo(new Date())
+        .certificateNo("TDB908-8-908")
+        .interestIncome(new BigDecimal(100000000))
+      .build());
+    timeDepositList.add(TimeDepositDto.builder()
+      .depositAmount(new BigDecimal("50000"))
+      .depositInterestRate(10.6F)
+      .periodeFrom(new Date())
+      .periodeTo(new Date())
+      .certificateNo("TDB908-8-9010")
+      .interestIncome(new BigDecimal(100000000))
+      .build());
+
     var body = emailTemplate.getContent();
     Map<String, Object> parameters = new HashMap<>();
     parameters.put("subject",request.getSubject());
@@ -61,6 +79,8 @@ public class EmailTemplateService {
     parameters.put("transactionTime",new Date());
     parameters.put("fromAccountName","BFI Treasury");
     parameters.put("fromAccountNumber","098487817471264");
+    parameters.put("timeDepositList",timeDepositList);
+
     var enrichedTemplate = templatingEngine.transform(body, parameters);
 
     this.sendEmailAndLog(emailAddress, title, enrichedTemplate);
