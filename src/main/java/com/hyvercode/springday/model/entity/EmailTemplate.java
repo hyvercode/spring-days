@@ -6,9 +6,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
-import java.sql.Clob;
 
 @Builder
 @Data
@@ -33,12 +33,14 @@ public class EmailTemplate extends BaseEntity {
   private String idTitle;
 
   @Lob
-  @Column(name = "en_content")
-  private transient Clob enContent;
+  @Type(type = "org.hibernate.type.TextType")
+  @Column(name = "en_content",columnDefinition = "text")
+  private String enContent;
 
   @Lob
-  @Column(name = "id_content")
-  private transient Clob idContent;
+  @Type(type = "org.hibernate.type.TextType")
+  @Column(name = "id_content",columnDefinition = "text")
+  private String idContent;
 
   @Column(name = "image_content")
   private String imageContent;

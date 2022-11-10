@@ -35,10 +35,7 @@ public class ApiFeignClientConfig {
   @Bean
   public FeignClientApi feignClientApi() {
     return Feign.builder()
-      .requestInterceptor(interceptor -> {
-        // Set Auth related headers
-        interceptor.header("api-secret", bfiTreasuryAuthApiKey);
-      })
+      .requestInterceptor(interceptor -> interceptor.header("api-secret", bfiTreasuryAuthApiKey))
       .encoder(encoder)
       .decoder(decoder)
       .errorDecoder((methodKey, response) -> {
