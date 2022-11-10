@@ -30,6 +30,8 @@ public class TemplatingEngine {
     public String transform(String rawNotificationTemplate, Map<String, Object> parameters) {
 
         VelocityContext context = this.getVelocityContext(rawNotificationTemplate, parameters);
+        context.put("format", new TemplateFormatter());
+
         Template template = engine.getTemplate(RAW_TEMPLATE);
 
         StringWriter templateWriter = new StringWriter(rawNotificationTemplate.length());

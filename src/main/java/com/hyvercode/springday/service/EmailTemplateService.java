@@ -36,7 +36,7 @@ public class EmailTemplateService {
 
   public EmptyResponse execute(EmailTemplateRequest request) {
     return emailTemplateRepository.findByEmailCode(request.getEmailCode())
-      .map(emailTemplate -> this.doExecute(request,emailTemplate))
+      .map(emailTemplate -> this.doExecute(request, emailTemplate))
       .orElseThrow(() -> {
         throw new BusinessException(
           HttpStatus.CONFLICT,
@@ -51,35 +51,35 @@ public class EmailTemplateService {
     var emailAddress = request.getRecipient();
     var title = request.getSubject();
 
-    log.info("Content {}",emailTemplate.getContent());
+    log.info("Content {}", emailTemplate.getContent());
 
-    List<TimeDepositDto>timeDepositList = new ArrayList<>();
+    List<TimeDepositDto> timeDepositList = new ArrayList<>();
     timeDepositList.add(TimeDepositDto.builder()
-        .depositAmount(new BigDecimal("10000"))
-        .depositInterestRate(1.6F)
-        .periodeFrom(new Date())
-        .periodeTo(new Date())
-        .certificateNo("TDB908-8-908")
-        .interestIncome(new BigDecimal(100000000))
+      .depositAmount(new BigDecimal("10000"))
+      .depositInterestRate(1.6F)
+      .periodeFrom("01-01-2022")
+      .periodeTo("01-12-2022")
+      .certificateNo("TDB908-8-908")
+      .interestIncome(new BigDecimal(100000000))
       .build());
     timeDepositList.add(TimeDepositDto.builder()
       .depositAmount(new BigDecimal("50000"))
       .depositInterestRate(10.6F)
-      .periodeFrom(new Date())
-      .periodeTo(new Date())
+      .periodeFrom("01-01-2022")
+      .periodeTo("01-12-2022")
       .certificateNo("TDB908-8-9010")
       .interestIncome(new BigDecimal(100000000))
       .build());
 
     var body = emailTemplate.getContent();
     Map<String, Object> parameters = new HashMap<>();
-    parameters.put("subject",request.getSubject());
-    parameters.put("toAccountName",request.getRecipient());
-    parameters.put("note",request.getMsgBody());
-    parameters.put("transactionTime",new Date());
-    parameters.put("fromAccountName","BFI Treasury");
-    parameters.put("fromAccountNumber","098487817471264");
-    parameters.put("timeDepositList",timeDepositList);
+    parameters.put("subject", request.getSubject());
+    parameters.put("toAccountName", request.getRecipient());
+    parameters.put("note", request.getMsgBody());
+    parameters.put("transactionTime", new Date());
+    parameters.put("fromAccountName", "BFI Treasury");
+    parameters.put("fromAccountNumber", "098487817471264");
+    parameters.put("timeDepositList", timeDepositList);
 
     var enrichedTemplate = templatingEngine.transform(body, parameters);
 
@@ -95,6 +95,6 @@ public class EmailTemplateService {
     Try.run(() -> {
       emailService.sendEmailWithTemplate(enrichedTemplate, emailAddress, title);
       log.info("[+] email sent to {}", emailAddress);
-    }).onFailure(e -> log.error("[x] failed to send email with error: {}",e.getMessage()));
+    }).onFailure(e -> log.error("[x] failed to send email with error: {}", e.getMessage()));
   }
 }

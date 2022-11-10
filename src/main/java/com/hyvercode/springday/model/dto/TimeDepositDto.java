@@ -7,7 +7,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
-import java.util.Date;
 
 @Data
 @NoArgsConstructor
@@ -16,8 +15,8 @@ import java.util.Date;
 public class TimeDepositDto extends BaseRequest {
   private BigDecimal depositAmount;
   private Float depositInterestRate;
-  private Date periodeFrom;
-  private Date periodeTo;
+  private String periodeFrom;
+  private String periodeTo;
   private String certificateNo;
   private BigDecimal interestIncome;
 }
