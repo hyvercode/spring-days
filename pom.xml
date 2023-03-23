@@ -33,6 +33,7 @@
 		<maven-surefire-plugin.version>2.22.2</maven-surefire-plugin.version>
 		<jacoco-maven-plugin.version>0.8.8</jacoco-maven-plugin.version>
 		<prettier-maven-plugin.version>0.18</prettier-maven-plugin.version>
+		<camunda.spring-boot.version>7.17.0</camunda.spring-boot.version>
 	</properties>
 
 	<dependencies>
@@ -183,7 +184,6 @@
 			<artifactId>spring-boot-starter-mail</artifactId>
 		</dependency>
 
-
 		<dependency>
 			<groupId>org.apache.velocity</groupId>
 			<artifactId>velocity</artifactId>
@@ -224,6 +224,12 @@
 			<groupId>com.google.firebase</groupId>
 			<artifactId>firebase-admin</artifactId>
 			<version>9.1.0</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.camunda.bpm.springboot/camunda-bpm-spring-boot-starter-webapp -->
+		<dependency>
+			<groupId>org.camunda.bpm.springboot</groupId>
+			<artifactId>camunda-bpm-spring-boot-starter-webapp</artifactId>
+			<version>${camunda.spring-boot.version}</version>
 		</dependency>
 
 	</dependencies>

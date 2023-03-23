@@ -104,5 +104,13 @@ feign:
     bfi:
       treasury:
         auth-api:
-          url: http://localhost:8081/bfi-treasury-auth-api
+          url: http://localhost:8081/wiremock
           key: 7579c5eb-67f3-44b5-9654-a6393b56d8ff
+
+camunda.bpm:
+  admin-user:
+    id: demo
+    password: demo
+    firstName: Demo
+  filter:
+    create: All tasks
