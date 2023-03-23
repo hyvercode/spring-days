@@ -8,14 +8,16 @@ spring-doc:
 logging:
   pattern:
     console: '%d{dd-MM-yyyy HH:mm:ss.SSS} [%-5level] [%-25thread] [%-36X{correlationId}] [%C{0}@%L]: %msg%n'
+  level:
+    root: INFO
+    com.hyvercode.springdays: DEBUG
+    org.camunda.bpm.client: DEBUG
 
 server:
   error:
     include-message: always
   servlet:
     context-path: "/spring-days"
-  port: 8080
-
 
 management:
   health:
@@ -37,6 +39,15 @@ management:
   metrics:
     tags:
       application: spring-days
+
+traces:
+  configs:
+    - name: default
+      remote_write:
+        - endpoint: tempo-us-central1.grafana.net:443
+          basic_auth:
+            username: 235554
+            password: ${SPRING_GRAFANA}
 
 spring:
   datasource:

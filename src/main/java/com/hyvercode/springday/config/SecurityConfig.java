@@ -21,7 +21,7 @@ import javax.servlet.http.HttpServletResponse;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig {
 
-  private SecurityContextService authenticationService;
+  private final SecurityContextService authenticationService;
 
   public SecurityConfig(SecurityContextService authenticationService) {
     this.authenticationService = authenticationService;
@@ -62,7 +62,11 @@ public class SecurityConfig {
       // Authorization requests config
       .authorizeRequests()
       //Enabled login
-      .antMatchers("/login/**", "/register/**")
+      .antMatchers("/login/**", "/register/**","/public/storage/**")
+      .permitAll()
+
+      //enable camunda
+      .antMatchers("/camunda/**", "/engine-rest/**","/actuator/**")
       .permitAll()
 
       // Enabled swagger end points
@@ -83,8 +87,6 @@ public class SecurityConfig {
 
       // All others should have LOGIN claim
       .antMatchers("/**")
-//      .hasAuthority(SecurityConstants.AuthenticationClaim.LOGIN.toString())
-//      .anyRequest()
       .authenticated();
 
     return http.build();
