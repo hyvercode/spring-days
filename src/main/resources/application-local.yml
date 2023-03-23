@@ -56,7 +56,7 @@ spring:
       auth: true
       starttls:
         enable: true
-    sender: noreply@sitama.co.id
+    sender: noreply@hyvercode.com
 
 logging:
   level:
