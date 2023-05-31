@@ -3,6 +3,7 @@ package com.hyvercode.springday.messaging.publisher;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hyvercode.springday.helpers.constant.RabbitmqPublisherConstants;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.core.MessageProperties;
@@ -17,6 +18,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
+@Slf4j
 @Component
 public class RabbitmqPublisher {
 
@@ -37,6 +39,25 @@ public class RabbitmqPublisher {
 
 
   public void storeAndSend(String header,
+                           Object messagePayload) {
+    if (messagePayload == null) {
+      throw new NullPointerException(RabbitmqPublisherConstants.EXCEPTION_NULL_PAYLOAD_MESSAGE);
+    }
+
+    var messageId = UUID.randomUUID();
+    try {
+      Map<String, String> messageHeader = new HashMap<>();
+      messageHeader.put(header, header);
+      var message = buildAmqpMessage(messageId, messageHeader, messagePayload);
+      var correlationData = new CorrelationData(messageId.toString());
+      rabbitTemplate.send(exchange, routingKey, message, correlationData);
+    } catch (JsonProcessingException e) {
+      log.info(e.getMessage());
+    }
+
+  }
+
+  public void storeAndSend(String exchange, String routingKey, Map<String, String> messageHeader,
                            Object messagePayload) throws JsonProcessingException {
     if (messagePayload == null) {
       throw new NullPointerException(RabbitmqPublisherConstants.EXCEPTION_NULL_PAYLOAD_MESSAGE);
@@ -44,31 +65,12 @@ public class RabbitmqPublisher {
 
     var messageId = UUID.randomUUID();
 
-    Map<String,String>messageHeader = new HashMap<>();
-    messageHeader.put(header,header);
 
     var message = buildAmqpMessage(messageId, messageHeader, messagePayload);
     var correlationData = new CorrelationData(messageId.toString());
 
     rabbitTemplate.send(exchange, routingKey, message, correlationData);
 
-  }
-
-  public String storeAndSend(String exchange, String routingKey, Map<String, String> messageHeader,
-                             Object messagePayload) throws JsonProcessingException {
-    if (messagePayload == null) {
-      throw new NullPointerException(RabbitmqPublisherConstants.EXCEPTION_NULL_PAYLOAD_MESSAGE);
-    }
-
-    var messageId = UUID.randomUUID();
-
-
-    var message = buildAmqpMessage(messageId, messageHeader, messagePayload);
-    var correlationData = new CorrelationData(messageId.toString());
-
-    rabbitTemplate.send(exchange, routingKey, message, correlationData);
-
-    return messageId.toString();
   }
 
 
@@ -84,7 +86,7 @@ public class RabbitmqPublisher {
     return new Message(Optional.ofNullable(payload).orElse(StringUtils.EMPTY).getBytes(), messageProps);
   }
 
-  public String storeAndSend(String exchange, String routingKey, Object messagePayload) throws JsonProcessingException {
-    return this.storeAndSend(exchange, routingKey, null, messagePayload);
+  public void storeAndSend(String exchange, String routingKey, Object messagePayload) throws JsonProcessingException {
+    this.storeAndSend(exchange, routingKey, null, messagePayload);
   }
 }

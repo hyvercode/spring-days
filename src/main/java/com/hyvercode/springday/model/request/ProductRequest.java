@@ -19,6 +19,5 @@ public class ProductRequest extends BaseRequest {
     private BigDecimal price;
     private BigInteger stock;
     private String productCategoryId;
-    private String productInventoryId;
     private Boolean isActive;
 }

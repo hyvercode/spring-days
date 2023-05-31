@@ -1,6 +1,5 @@
 package com.hyvercode.springday.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.hyvercode.springday.auth.SecurityContextService;
 import com.hyvercode.springday.exception.BusinessException;
 import com.hyvercode.springday.helpers.ErrorConstant;
@@ -8,7 +7,6 @@ import com.hyvercode.springday.helpers.base.BasePaginationRequest;
 import com.hyvercode.springday.helpers.base.EmptyResponse;
 import com.hyvercode.springday.helpers.utils.PageableUtil;
 import com.hyvercode.springday.messaging.publisher.RabbitmqPublisher;
-import com.hyvercode.springday.messaging.service.RabbitmqCommonService;
 import com.hyvercode.springday.model.dto.ProductCategoryDto;
 import com.hyvercode.springday.model.dto.ProductInventoryDto;
 import com.hyvercode.springday.model.entity.Product;
@@ -32,6 +30,7 @@ import org.springframework.stereotype.Service;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import javax.transaction.Transactional;
 import java.sql.Timestamp;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -59,7 +58,6 @@ public class ProductService {
 
   /**
    * Find All
-   *
    * @return
    */
   public List<ProductResponse> findAll() {
@@ -86,7 +84,6 @@ public class ProductService {
 
   /**
    * Pagination
-   *
    * @param request
    * @return
    */
@@ -121,7 +118,6 @@ public class ProductService {
 
   /**
    * Find By ID
-   *
    * @param id
    * @return
    */
@@ -153,10 +149,10 @@ public class ProductService {
 
   /**
    * Create
-   *
    * @param request
    * @return
    */
+  @Transactional
   public EmptyResponse create(ProductRequest request) {
     Optional<ProductCategory> optionalProductCategory = productCategoryRepository.findById(request.getProductCategoryId());
     ProductCategory productCategory = optionalProductCategory.orElseThrow(() ->
@@ -183,7 +179,7 @@ public class ProductService {
 
     try {
       rabbitmqPublisher.storeAndSend("PRODUCT", productResult);
-    } catch (JsonProcessingException e) {
+    } catch (Exception e) {
       log.info(e.getMessage());
     }
     return new EmptyResponse();
@@ -191,11 +187,12 @@ public class ProductService {
 
   /**
    * Update
-   *
    * @param id
    * @param request
    * @return
    */
+
+  @Transactional
   public EmptyResponse update(String id, ProductRequest request) {
 
     Optional<Product> optionalProduct = productRepository.findById(id);
@@ -221,7 +218,6 @@ public class ProductService {
 
   /**
    * Delete
-   *
    * @param id
    * @return
    */
@@ -237,6 +233,10 @@ public class ProductService {
     return new EmptyResponse();
   }
 
+  /**
+   * @param id
+   * @return
+   */
   public ProductCategoryViewResponse findByProductId(String id) {
     Optional<ProductCategoryView> optionalProduct = productRepository.findByProductId(id);
     if (optionalProduct.isEmpty()) {

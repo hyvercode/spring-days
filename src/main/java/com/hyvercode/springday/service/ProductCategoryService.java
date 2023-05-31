@@ -10,6 +10,7 @@ import com.hyvercode.springday.repository.ProductCategoryRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.sql.Timestamp;
 
 @Slf4j
@@ -28,6 +29,7 @@ public class ProductCategoryService {
     this.rabbitmqPublisher = rabbitmqPublisher;
   }
 
+  @Transactional
   public EmptyResponse create(ProductCategoryRequest request) {
     ProductCategory productCategory = ProductCategory.builder()
       .productCategoryName(request.getProductCategoryName())
@@ -38,12 +40,10 @@ public class ProductCategoryService {
     productCategory.setCreatedTime(new Timestamp(System.currentTimeMillis()));
     var productResult = productCategoryRepository.save(productCategory);
 
-    try {
-      rabbitmqPublisher.storeAndSend("PRODUCT", productResult);
-    } catch (JsonProcessingException e) {
-      log.info(e.getMessage());
-    }
+    //Publish
+    rabbitmqPublisher.storeAndSend("PRODUCT", productResult);
 
     return new EmptyResponse();
   }
+
 }

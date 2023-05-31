@@ -9,7 +9,7 @@ import java.util.Optional;
 @Service
 public class RabbitmqCommonService {
 
-  private RedisTemplate<String, Boolean> redisTemplateGenericBoolean;
+  private final RedisTemplate<String, Boolean> redisTemplateGenericBoolean;
 
   public RabbitmqCommonService(RedisTemplate<String, Boolean> redisTemplateGenericBoolean) {
     this.redisTemplateGenericBoolean = redisTemplateGenericBoolean;
