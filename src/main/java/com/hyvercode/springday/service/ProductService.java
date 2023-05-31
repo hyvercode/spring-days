@@ -199,12 +199,10 @@ public class ProductService {
       throw new BusinessException(HttpStatus.CONFLICT, ErrorConstant.ERROR_CODE_01, ErrorConstant.ERROR_MESSAGE_01);
     }
 
-    Optional<ProductCategory> optionalProductCategory = productCategoryRepository.findById(request.getProductCategoryId());
-    ProductCategory productCategory = optionalProductCategory.orElseThrow(() ->
-      new BusinessException(HttpStatus.CONFLICT, ErrorConstant.ERROR_CODE_01, ErrorConstant.ERROR_MESSAGE_01));
     Product product = optionalProduct.get();
-    BeanUtils.copyProperties(request, product);
-    product.setProductCategory(productCategory);
+    product.setProductName(request.getProductName());
+    product.setPrice(request.getPrice());
+    product.setIsActive(request.getIsActive());
     product.setUpdatedBy(securityContextService.getCurrentUserId());
     product.setUpdatedTime(new Timestamp(System.currentTimeMillis()));
     productRepository.save(product);
@@ -218,14 +216,12 @@ public class ProductService {
    * @return
    */
   public EmptyResponse delete(String id) {
-
     Optional<Product> optionalProduct = productRepository.findById(id);
     if (optionalProduct.isEmpty()) {
       log.info(ErrorConstant.ERROR_MESSAGE_01 + "{}", id);
       throw new BusinessException(HttpStatus.CONFLICT, ErrorConstant.ERROR_CODE_01, ErrorConstant.ERROR_MESSAGE_01);
     }
-    productRepository.deleteById(id);
-
+    productRepository.delete(optionalProduct.get());
     return new EmptyResponse();
   }
 
