@@ -2,7 +2,7 @@ package com.hyvercode.springday.service;
 
 import com.hyvercode.springday.component.TokenProvider;
 import com.hyvercode.springday.exception.BusinessException;
-import com.hyvercode.springday.helpers.ErrorConstant;
+import com.hyvercode.springday.helpers.constant.ErrorConstant;
 import com.hyvercode.springday.helpers.base.BaseResponse;
 import com.hyvercode.springday.model.entity.User;
 import com.hyvercode.springday.model.request.LoginRequest;

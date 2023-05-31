@@ -6,8 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import java.util.List;
 
-import java.util.Set;
 
 
 @Data
@@ -15,6 +15,6 @@ import java.util.Set;
 @AllArgsConstructor
 @Builder
 public class PageProductCategoryResponse extends BasePaginationResponse {
-  private Set<ProductCategoryResponse> data;
+  private List<ProductCategoryResponse> data;
   private Pagination pagination;
 }

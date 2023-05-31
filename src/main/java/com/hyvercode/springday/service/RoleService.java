@@ -1,7 +1,7 @@
 package com.hyvercode.springday.service;
 
 import com.hyvercode.springday.exception.BusinessException;
-import com.hyvercode.springday.helpers.ErrorConstant;
+import com.hyvercode.springday.helpers.constant.ErrorConstant;
 import com.hyvercode.springday.model.entity.Role;
 import com.hyvercode.springday.repository.RoleRepository;
 import lombok.extern.slf4j.Slf4j;

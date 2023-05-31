@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class ProductCategoryResponse extends BaseResponse {
+  private String productCategoryId;
   private String productCategoryName;
   private String description;
   private Boolean isActive;

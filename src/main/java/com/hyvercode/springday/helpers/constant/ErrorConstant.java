@@ -1,4 +1,4 @@
-package com.hyvercode.springday.helpers;
+package com.hyvercode.springday.helpers.constant;
 
 public class ErrorConstant {
     private ErrorConstant() {

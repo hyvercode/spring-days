@@ -2,7 +2,7 @@ package com.hyvercode.springday.service;
 
 import com.hyvercode.springday.auth.SecurityContextService;
 import com.hyvercode.springday.exception.BusinessException;
-import com.hyvercode.springday.helpers.ErrorConstant;
+import com.hyvercode.springday.helpers.constant.ErrorConstant;
 import com.hyvercode.springday.helpers.base.BasePaginationRequest;
 import com.hyvercode.springday.helpers.base.EmptyResponse;
 import com.hyvercode.springday.helpers.utils.PageableUtil;
@@ -20,22 +20,18 @@ import com.hyvercode.springday.model.response.product.ProductResponse;
 import com.hyvercode.springday.repository.ProductCategoryRepository;
 import com.hyvercode.springday.repository.ProductInventoryRepository;
 import com.hyvercode.springday.repository.ProductRepository;
-import io.vavr.collection.Stream;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.stream.Streams;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
 import java.sql.Timestamp;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -175,7 +171,7 @@ public class ProductService {
       .productInventory(productInventorySave)
       .isActive(request.getIsActive())
       .build();
-    product.setCreatedBy(ErrorConstant.CREATOR);
+    product.setCreatedBy(securityContextService.getCurrentUserId());
     product.setCreatedTime(new Timestamp(System.currentTimeMillis()));
     var productResult = productRepository.save(product);
 
@@ -206,12 +202,10 @@ public class ProductService {
     Optional<ProductCategory> optionalProductCategory = productCategoryRepository.findById(request.getProductCategoryId());
     ProductCategory productCategory = optionalProductCategory.orElseThrow(() ->
       new BusinessException(HttpStatus.CONFLICT, ErrorConstant.ERROR_CODE_01, ErrorConstant.ERROR_MESSAGE_01));
-
-
     Product product = optionalProduct.get();
     BeanUtils.copyProperties(request, product);
     product.setProductCategory(productCategory);
-    product.setUpdatedBy(ErrorConstant.CREATOR);
+    product.setUpdatedBy(securityContextService.getCurrentUserId());
     product.setUpdatedTime(new Timestamp(System.currentTimeMillis()));
     productRepository.save(product);
 

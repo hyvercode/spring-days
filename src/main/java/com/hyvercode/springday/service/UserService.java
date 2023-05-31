@@ -1,7 +1,7 @@
 package com.hyvercode.springday.service;
 
 import com.hyvercode.springday.exception.BusinessException;
-import com.hyvercode.springday.helpers.ErrorConstant;
+import com.hyvercode.springday.helpers.constant.ErrorConstant;
 import com.hyvercode.springday.helpers.base.EmptyResponse;
 import com.hyvercode.springday.model.entity.Role;
 import com.hyvercode.springday.model.entity.User;
@@ -9,7 +9,6 @@ import com.hyvercode.springday.model.request.UserRequest;
 import com.hyvercode.springday.repository.RoleRepository;
 import com.hyvercode.springday.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
