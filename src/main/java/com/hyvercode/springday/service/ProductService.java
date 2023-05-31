@@ -20,7 +20,9 @@ import com.hyvercode.springday.model.response.product.ProductResponse;
 import com.hyvercode.springday.repository.ProductCategoryRepository;
 import com.hyvercode.springday.repository.ProductInventoryRepository;
 import com.hyvercode.springday.repository.ProductRepository;
+import io.vavr.collection.Stream;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.stream.Streams;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -95,7 +97,7 @@ public class ProductService {
     Page<Product> page = productRepository.findAll((Root<Product> root, CriteriaQuery<?> query, CriteriaBuilder builder) ->
       builder.and(builder.like(root.get(request.getSearchBy()), '%' + request.getSearchParam() + '%')), pageable);
 
-    Set<ProductResponse> responses = page.getContent().stream().map(item -> {
+    List<ProductResponse> responses = page.getContent().stream().map(item -> {
       ProductResponse response = new ProductResponse();
       BeanUtils.copyProperties(item, response);
       response.setProductCategory(ProductCategoryDto.builder()
@@ -108,7 +110,7 @@ public class ProductService {
         .quantity(item.getProductInventory().getQuantity())
         .build());
       return response;
-    }).collect(Collectors.toSet());
+    }).toList();
 
     return PageProductResponse.builder()
       .data(responses)
