@@ -23,9 +23,9 @@ spring:
     username: guest
     password: guest
     queue:
-      name: queue.spring-days
-    exchange : exchange.spring-days
-    routingkey: routingkey.spring-days
+      name: q.spring-days
+    exchange: x.spring-days
+    routingkey: r.spring-days
     publisher-confirm-type: CORRELATED
     publisher-returns: true
     template:
@@ -40,7 +40,6 @@ spring:
           initial-interval: 3000
           max-attempts: 5
 
-
   # Redis Config
   redis:
     host: localhost
@@ -48,7 +47,7 @@ spring:
 
   #Mail
   mail:
-    host:  ${EMAIL_HOST}
+    host: ${EMAIL_HOST}
     port: 587
     username: ${EMAIL_USERNAME}
     password: ${EMAIL_PASSWORD}
@@ -89,6 +88,7 @@ setting:
       filePassword: 'P@ssw0rd'
       keyName: 'jwt_key'
       keyPassword: 'P@ssw0rd'
+    secret: SECRET
 
 feign:
   client:
@@ -101,11 +101,9 @@ feign:
     jackson:
       enabled: true
   api:
-    bfi:
-      treasury:
-        auth-api:
-          url: http://localhost:8081/wiremock
-          key: 7579c5eb-67f3-44b5-9654-a6393b56d8ff
+    auth-api:
+      url: http://localhost:8081/wiremock
+      key: 7579c5eb-67f3-44b5-9654-a6393b56d8ff
 
 camunda.bpm:
   admin-user:

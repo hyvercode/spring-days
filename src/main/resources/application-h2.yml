@@ -22,9 +22,6 @@ spring:
     enabled: true
     baseline-on-migrate: true
 
-server:
-  port: 8888
-
 spring-doc:
   version: '3.0'
   api-docs:
@@ -45,5 +42,5 @@ setting:
       filePassword: 'P@ssw0rd'
       keyName: 'jwt_key'
       keyPassword: 'P@ssw0rd'
-    secret: secretkey
+    secret: SECRET
 

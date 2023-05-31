@@ -73,9 +73,9 @@ spring:
     username: ${SPRING_RABBITMQ_USERNAME}
     password: ${SPRING_RABBITMQ_PASSWORD}
     queue:
-      name: queue.spring-days
-    exchange: exchange.spring-days
-    routingkey: routingkey.spring-days
+      name: q.spring-days
+    exchange: x.spring-days
+    routingkey: r.spring-days
     publisher-confirm-type: CORRELATED
     publisher-returns: true
     template:
@@ -103,3 +103,4 @@ setting:
       filePassword: ${JWT_JKS_FILE_PASSWORD}
       keyName: ${JWT_JKS_KEY_NAME}
       keyPassword: ${JWT_JKS_KEY_PASSWORD}
+    secret: SECRET

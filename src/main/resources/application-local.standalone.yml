@@ -23,9 +23,9 @@ spring:
     username: guest
     password: guest
     queue:
-      name: queue.spring-days
-    exchange : exchange.spring-days
-    routingkey: routingkey.spring-days
+      name: q.spring-days
+    exchange : x.spring-days
+    routingkey: r.spring-days
     publisher-confirm-type: CORRELATED
     publisher-returns: true
     template:
@@ -39,7 +39,6 @@ spring:
           enabled: true
           initial-interval: 3000
           max-attempts: 5
-
 
   # Redis Config
   redis:
@@ -57,7 +56,6 @@ spring:
       starttls:
         enable: true
     sender: noreply@hyvercode.com
-
 
 logging:
   level:
@@ -90,6 +88,7 @@ setting:
       filePassword: 'P@ssw0rd'
       keyName: 'jwt_key'
       keyPassword: 'P@ssw0rd'
+    secret: SECRET
 
 feign:
   client:

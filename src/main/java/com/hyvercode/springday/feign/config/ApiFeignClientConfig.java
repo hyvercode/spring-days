@@ -20,10 +20,10 @@ public class ApiFeignClientConfig {
 
   private final Decoder decoder;
 
-  @Value("${feign.api.bfi.treasury.auth-api.url}")
+  @Value("${feign.api.auth-api.url}")
   private String bfiTreasuryAuthApiBaseUrl;
 
-  @Value("${feign.api.bfi.treasury.auth-api.key}")
+  @Value("${feign.api.auth-api.key}")
   private String bfiTreasuryAuthApiKey;
 
   public ApiFeignClientConfig(Encoder encoder, Decoder decoder) {
