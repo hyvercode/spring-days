@@ -2,15 +2,12 @@ package com.hyvercode.springday.config;
 
 import java.io.FileInputStream;
 import java.security.KeyStore;
-
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
-
 import com.auth0.jwt.algorithms.Algorithm;
-
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -28,6 +25,9 @@ public class KeyAlgorithmConfig {
 
   @Value("${setting.jwt.jks.keyPassword}")
   private String keyPassword;
+
+  @Value("${setting.jwt.secret}")
+  private String secret;
 
   @Bean
   @Profile({ "dev", "sit", "uat", "prod" })
@@ -51,6 +51,6 @@ public class KeyAlgorithmConfig {
   @Bean
   @Profile({ "local", "local-standalone", "test", "unit-test" })
   Algorithm getKeyAlgorithmLocal() {
-    return Algorithm.HMAC512("SECRET");
+    return Algorithm.HMAC512(secret);
   }
 }

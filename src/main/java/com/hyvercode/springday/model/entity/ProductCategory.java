@@ -18,8 +18,6 @@ import java.sql.Timestamp;
 @AllArgsConstructor
 @Entity
 @Table(name = "product_category")
-@SQLDelete(sql = "UPDATE product_category SET deleted_time=NOW() where product_category_id=?")
-@Where(clause = "deleted_time is NULL")
 public class ProductCategory extends BaseEntity {
 
   @Id
