@@ -19,7 +19,7 @@ public class FirebaseConfigMessaging {
       .builder()
       .setCredentials(googleCredentials)
       .build();
-    FirebaseApp app = FirebaseApp.initializeApp(firebaseOptions, "bfi-tms");
+    FirebaseApp app = FirebaseApp.initializeApp(firebaseOptions, "spring-days");
     return FirebaseMessaging.getInstance(app);
   }
 }
