@@ -13,19 +13,32 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
+import javax.ws.rs.ForbiddenException;
+
 @Slf4j
 @Service
-public class AuthService{
+public class AuthService {
 
   private final TokenProvider jwtTokenUtil;
   private final UserRepository userRepository;
 
-  public AuthService(TokenProvider jwtTokenUtil, UserRepository userRepository) {
+  private final CaptchaValidator captchaValidator;
+
+  public AuthService(TokenProvider jwtTokenUtil,
+                     UserRepository userRepository,
+                     CaptchaValidator captchaValidator) {
     this.jwtTokenUtil = jwtTokenUtil;
     this.userRepository = userRepository;
+    this.captchaValidator = captchaValidator;
   }
 
   public BaseResponse login(LoginRequest request) {
+
+    boolean isValidCaptcha = captchaValidator.validateCaptcha(request.getCaptchaResponse());
+    if (!isValidCaptcha) {
+      throw new BusinessException(HttpStatus.FORBIDDEN, ErrorConstant.ERROR_CODE_02, ErrorConstant.ERROR_MESSAGE_02);
+    }
+
     User users = userRepository
       .findByUsername(request.getUsername().toLowerCase())
       .orElseThrow(() -> new BusinessException(HttpStatus.CONFLICT, ErrorConstant.ERROR_CODE_01, ErrorConstant.ERROR_MESSAGE_01));

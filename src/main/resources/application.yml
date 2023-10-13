@@ -109,3 +109,8 @@ setting:
       keyName: ${JWT_JKS_KEY_NAME}
       keyPassword: ${JWT_JKS_KEY_PASSWORD}
     secret: SECRET
+
+google:
+  recaptcha:
+    url: https://www.google.com/recaptcha/api/siteverify
+    secret: 6Le0iZAkAAAAAEamLztiokarFZXtKbDcKmNZTUSM

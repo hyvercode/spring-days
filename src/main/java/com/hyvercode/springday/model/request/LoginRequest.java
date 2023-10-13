@@ -28,4 +28,9 @@ public class LoginRequest extends BaseRequest {
   @NotEmpty(message = "Not empty")
   @Size(max = 30, message = "Max 30 characters")
   private String password;
+
+  @NotNull(message = "Not null")
+  @NotBlank(message = "Not blank")
+  @NotEmpty(message = "Not empty")
+  private String captchaResponse;
 }
