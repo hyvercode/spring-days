@@ -21,6 +21,11 @@ spring:
     locations: classpath:db/migration
     enabled: true
     baseline-on-migrate: true
+  batch:
+    job:
+      enabled: false
+    jdbc:
+      initialize-schema: ALWAYS
 
 spring-doc:
   version: '3.0'

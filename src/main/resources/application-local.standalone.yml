@@ -56,6 +56,11 @@ spring:
       starttls:
         enable: true
     sender: noreply@hyvercode.com
+  batch:
+    job:
+      enabled: false
+    jdbc:
+      initialize-schema: ALWAYS
 
 logging:
   level:

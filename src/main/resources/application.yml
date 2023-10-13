@@ -89,6 +89,11 @@ spring:
           enabled: true
           initial-interval: 3000
           max-attempts: 5
+  batch:
+    job:
+      enabled: false
+    jdbc:
+      initialize-schema: ALWAYS
 
 setting:
   service:
