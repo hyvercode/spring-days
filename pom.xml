@@ -33,7 +33,7 @@
         <maven-surefire-plugin.version>2.22.2</maven-surefire-plugin.version>
         <jacoco-maven-plugin.version>0.8.8</jacoco-maven-plugin.version>
         <prettier-maven-plugin.version>0.18</prettier-maven-plugin.version>
-        <camunda.version>7.18.0</camunda.version>
+        <camunda.version>7.20.0</camunda.version>
         <spring-cloud.version>2021.0.4</spring-cloud.version>
     </properties>
 
