@@ -75,7 +75,7 @@ spring:
     queue:
       name: q.spring-days
     exchange: x.spring-days
-    routingkey: r.spring-days
+    routing-key: r.spring-days
     publisher-confirm-type: CORRELATED
     publisher-returns: true
     template:

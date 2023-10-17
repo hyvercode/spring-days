@@ -22,7 +22,7 @@ public class RabbitMQConfig {
   @Value("${spring.rabbitmq.exchange}")
   String exchangeQ;
 
-  @Value("${spring.rabbitmq.routingkey}")
+  @Value("${spring.rabbitmq.routing-key}")
   String routingKey;
 
   @Bean
