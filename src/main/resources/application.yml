@@ -113,4 +113,4 @@ setting:
 google:
   recaptcha:
     url: https://www.google.com/recaptcha/api/siteverify
-    secret: 6Le0iZAkAAAAAEamLztiokarFZXtKbDcKmNZTUSM
+    secret: ${GOOGLE_RECAPTCHA_SECRET}

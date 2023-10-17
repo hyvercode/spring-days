@@ -8,10 +8,10 @@ SPRING BOOT DAYS + PostgreSQL
 6. Spring Days JPA Projection
 7. Spring Days RabbitMQ 
 8. Spring Days Batch
-9. Redis Cache
-10. Firebase Notification
-11. Mail Sender
-12. Camunda
-13. Google reCAPTCHA and AOP
+9. Spring Days Redis Cache
+10. Spring Days Firebase Notification
+11. Spring Days Mail Sender
+12. Spring Days Camunda
+13. Spring Days Google reCAPTCHA and AOP
 
 credit by hyvercode.com
