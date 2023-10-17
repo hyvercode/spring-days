@@ -29,4 +29,9 @@ username :demo
 <br>
 password :demo
 
+<br>
+Swagger UI
+<br>
+http://localhost:8080/spring-days/swagger-ui/index.html
+
 credit by hyvercode.com
