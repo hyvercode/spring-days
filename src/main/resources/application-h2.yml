@@ -49,3 +49,18 @@ setting:
       keyPassword: 'P@ssw0rd'
     secret: SECRET
 
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: 5000
+        readTimeout: 5000
+        loggerLevel: BASIC
+  autoconfiguration:
+    jackson:
+      enabled: true
+  api:
+    auth-api:
+      url: http://localhost:8081/wiremock
+      key: 7579c5eb-67f3-44b5-9654-a6393b56d8ff
+
