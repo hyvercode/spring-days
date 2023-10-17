@@ -23,7 +23,7 @@ services:
     image: redis
     ports:
       - "6379"
-  bfi-tms-backoffice:
+  spring-days-api:
     image: spring-days
     container_name: spring-days
     build:

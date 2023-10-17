@@ -21,10 +21,10 @@ public class ApiFeignClientConfig {
   private final Decoder decoder;
 
   @Value("${feign.api.auth-api.url}")
-  private String bfiTreasuryAuthApiBaseUrl;
+  private String authApiBaseUrl;
 
   @Value("${feign.api.auth-api.key}")
-  private String bfiTreasuryAuthApiKey;
+  private String authApiKey;
 
   public ApiFeignClientConfig(Encoder encoder, Decoder decoder) {
     this.encoder = encoder;
@@ -35,7 +35,7 @@ public class ApiFeignClientConfig {
   @Bean
   public FeignClientApi feignClientApi() {
     return Feign.builder()
-      .requestInterceptor(interceptor -> interceptor.header("api-secret", bfiTreasuryAuthApiKey))
+      .requestInterceptor(interceptor -> interceptor.header("api-secret", authApiKey))
       .encoder(encoder)
       .decoder(decoder)
       .errorDecoder((methodKey, response) -> {
@@ -43,6 +43,6 @@ public class ApiFeignClientConfig {
         // Handle specific exception
         return defaultErrorEncoder.decode(methodKey, response);
       }) // Set the appropriate url
-      .target(FeignClientApi.class, bfiTreasuryAuthApiBaseUrl);
+      .target(FeignClientApi.class, authApiBaseUrl);
   }
 }

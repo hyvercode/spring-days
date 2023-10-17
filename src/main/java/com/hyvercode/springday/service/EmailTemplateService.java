@@ -77,7 +77,7 @@ public class EmailTemplateService {
     parameters.put("toAccountName", request.getRecipient());
     parameters.put("note", request.getMsgBody());
     parameters.put("transactionTime", new Date());
-    parameters.put("fromAccountName", "BFI Treasury");
+    parameters.put("fromAccountName", "Spring Days");
     parameters.put("fromAccountNumber", "098487817471264");
     parameters.put("timeDepositList", timeDepositList);
 
