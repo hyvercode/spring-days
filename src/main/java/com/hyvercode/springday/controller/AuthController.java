@@ -24,4 +24,10 @@ public class AuthController {
   public BaseResponse login(@RequestBody @Valid LoginRequest request){
     return authService.login(request);
   }
+
+  @PostMapping(value = "/captcha",consumes = MediaType.APPLICATION_JSON_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)
+  @ResponseBody
+  public BaseResponse loginCaptcha(@RequestBody @Valid LoginRequest request){
+    return authService.loginCaptcha(request);
+  }
 }

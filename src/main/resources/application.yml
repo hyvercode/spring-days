@@ -36,6 +36,11 @@ management:
           - prometheus
           - metrics
           - health
+          - circuitbreakers
+          - circuitbreakerevents
+          - retryevents
+  retries:
+    enabled: true
   metrics:
     tags:
       application: spring-days
@@ -110,6 +115,40 @@ setting:
       keyPassword: ${JWT_JKS_KEY_PASSWORD}
     secret: SECRET
 
+#  resilience4j
+resilience4j.retry:
+  configs:
+    default:
+      registerHealthIndicator: true
+      maxRetryAttempts: 3
+      waitDuration: 1s
+      enableExponentialBackoff: true
+      exponentialBackoffMultiplier: 2
+  instances:
+    auth-api:
+      throwingException:
+        maxRetryAttempts: 3
+        waitDuration: 2s
+        retryExceptions:
+          - java.lang.Exception
+
+resilience4j.circuitbreaker:
+  configs:
+    default:
+      registerHealthIndicator: true
+      failureRateThreshold: 100
+      slowCallRateThreshold: 100
+      slowCallDurationThreshold: 60000
+      permittedNumberOfCallsInHalfOpenState: 5
+      maxWaitDurationInHalfOpenState: 60000
+      slidingWindowType: COUNT_BASED
+      slidingWindowSize: 20
+      minimumNumberOfCalls: 4
+      waitDurationInOpenState: 60000
+  instances:
+    auth-api:
+      baseConfig: default
+
 feign:
   client:
     config:
@@ -122,7 +161,7 @@ feign:
       enabled: true
   api:
     auth-api:
-      url: http://localhost:8081/wiremock
+      url: http://localhost:8000/api
       key: 7579c5eb-67f3-44b5-9654-a6393b56d8ff
 
 camunda.bpm:

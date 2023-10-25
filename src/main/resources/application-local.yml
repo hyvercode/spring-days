@@ -25,7 +25,7 @@ spring:
     queue:
       name: q.spring-days
     exchange: x.spring-days
-    routingkey: r.spring-days
+    routing-key: r.spring-days
     publisher-confirm-type: CORRELATED
     publisher-returns: true
     template:
@@ -107,7 +107,7 @@ feign:
       enabled: true
   api:
     auth-api:
-      url: http://localhost:8081/wiremock
+      url: http://localhost:8000/api
       key: 7579c5eb-67f3-44b5-9654-a6393b56d8ff
 
 camunda.bpm:

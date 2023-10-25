@@ -30,6 +30,19 @@ public class AuthService {
   }
 
   public BaseResponse login(LoginRequest request) {
+    User users = userRepository
+      .findByUsername(request.getUsername().toLowerCase())
+      .orElseThrow(() -> new BusinessException(HttpStatus.CONFLICT, ErrorConstant.ERROR_CODE_01, ErrorConstant.ERROR_MESSAGE_01));
+
+    if (!BCrypt.checkpw(request.getPassword(), users.getPassword())) {
+      throw new BusinessException(HttpStatus.BAD_REQUEST, ErrorConstant.ERROR_CODE_01, ErrorConstant.ERROR_MESSAGE_01);
+    }
+    return AuthResponse.builder()
+      .token(jwtTokenUtil.generateToken(users))
+      .build();
+  }
+
+  public BaseResponse loginCaptcha(LoginRequest request) {
 
     boolean isValidCaptcha = captchaValidator.validateCaptcha(request.getCaptchaResponse());
     if (!isValidCaptcha) {
