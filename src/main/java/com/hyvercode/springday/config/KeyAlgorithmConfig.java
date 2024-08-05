@@ -49,7 +49,7 @@ public class KeyAlgorithmConfig {
   }
 
   @Bean
-  @Profile({ "local", "local-standalone", "test", "unit-test" })
+  @Profile({ "local", "local-standalone", "test", "unit-test","h2" })
   Algorithm getKeyAlgorithmLocal() {
     return Algorithm.HMAC512(secret);
   }
