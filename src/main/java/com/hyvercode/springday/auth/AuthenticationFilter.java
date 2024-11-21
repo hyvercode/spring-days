@@ -14,7 +14,7 @@ import java.io.IOException;
 public class AuthenticationFilter extends OncePerRequestFilter {
 
 
-  private SecurityContextService authenticationService;
+  private final SecurityContextService authenticationService;
 
   public AuthenticationFilter(SecurityContextService authenticationService) {
     this.authenticationService = authenticationService;

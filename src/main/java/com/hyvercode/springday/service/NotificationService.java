@@ -5,6 +5,7 @@ import com.hyvercode.springday.exception.BusinessException;
 import com.hyvercode.springday.firebase.model.Note;
 import com.hyvercode.springday.firebase.service.FirebaseMessagingService;
 import com.hyvercode.springday.helpers.base.EmptyResponse;
+import com.hyvercode.springday.helpers.constant.ErrorConstant;
 import com.hyvercode.springday.model.request.NotificationRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -31,9 +32,8 @@ public class NotificationService {
       log.info("Firebase log {} ", e.getMessage());
       throw new BusinessException(
         HttpStatus.CONFLICT,
-        "80000",
-        "firebase token",
-        "firebase not found for token: " + token
+        ErrorConstant.ERROR_CODE_02,
+        ErrorConstant.ERROR_MESSAGE_02
       );
     }
 

@@ -23,7 +23,7 @@ public class UserService {
 
   private final UserRepository userRepository;
 
-  private BCryptPasswordEncoder bCryptPasswordEncoder;
+  private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
   private final RoleRepository roleRepository;
 
@@ -42,7 +42,7 @@ public class UserService {
     }
     Set<Role> roleSet = new HashSet<>();
     roleSet.add(role);
-
+    
     User user = User.builder()
       .username(request.getUsername())
       .password(bCryptPasswordEncoder.encode(request.getPassword()))
