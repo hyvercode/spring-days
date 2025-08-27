@@ -1,0 +1,124 @@
+spring:
+  datasource:
+    platform: postgres
+    url: jdbc:postgresql://localhost:5432/spring-days
+    driverClassName: org.postgresql.Driver
+    username: postgres
+    password: root
+  main:
+    banner-mode: off
+  jackson:
+    property-naming-strategy: LOWER_CAMEL_CASE
+  cache:
+    type: REDIS
+    redis:
+      cache-null-values: true
+      key-prefix: spring-days
+      time-to-live: 1h
+
+  # Rabbitmq3 Config
+  rabbitmq:
+    port: 5672
+    host: localhost
+    username: guest
+    password: guest
+    queue:
+      name: q.spring-days
+    exchange: x.spring-days
+    routing-key: r.spring-days
+    publisher-confirm-type: CORRELATED
+    publisher-returns: true
+    template:
+      mandatory: true
+    cache:
+      channel:
+        size: 5
+    listener: # blocking!
+      simple:
+        retry:
+          enabled: true
+          initial-interval: 3000
+          max-attempts: 5
+
+  # Redis Config
+  redis:
+    host: localhost
+    port: 6379
+
+  #Mail
+  mail:
+    host: ${EMAIL_HOST:mail.localhost}
+    port: 587
+    username: ${EMAIL_USERNAME:mail}
+    password: ${EMAIL_PASSWORD:mail}
+    smtp:
+      auth: true
+      starttls:
+        enable: true
+    sender: noreply@hyvercode.com
+  batch:
+    job:
+      enabled: false
+    jdbc:
+      initialize-schema: ALWAYS
+
+logging:
+  level:
+    org:
+      hibernate:
+        SQL: debug
+        type:
+          descriptor:
+            sql: trace
+      springframework:
+        web:
+          client:
+            RestTemplate: DEBUG
+
+management:
+  endpoint:
+    health:
+      show-details: always
+
+setting:
+  service:
+    internal:
+      name: 'spring-days'
+      key: INTERNAL_KEY
+  jwt:
+    token:
+      issuer: MY_LOCAL_MACHINE
+    jks:
+      filePath: './add-your-jks-here.jks'
+      filePassword: 'P@ssw0rd'
+      keyName: 'jwt_key'
+      keyPassword: 'P@ssw0rd'
+    secret: SECRET
+
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: 5000
+        readTimeout: 5000
+        loggerLevel: BASIC
+  autoconfiguration:
+    jackson:
+      enabled: true
+  api:
+    auth-api:
+      url: http://localhost:8000/api
+      key: 7579c5eb-67f3-44b5-9654-a6393b56d8ff
+
+camunda.bpm:
+  admin-user:
+    id: demo
+    password: demo
+    firstName: Demo
+  filter:
+    create: All tasks
+
+google:
+  recaptcha:
+    url: https://www.google.com/recaptcha/api/siteverify
+    secret: ${GOOGLE_RECAPTCHA_SECRET:local}

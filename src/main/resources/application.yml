@@ -1,0 +1,187 @@
+spring-doc:
+  version: '3.0'
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+
+logging:
+  pattern:
+    console: '%d{dd-MM-yyyy HH:mm:ss.SSS} [%-5level] [%-25thread] [%-36X{correlationId}] [%C{0}@%L]: %msg%n'
+  level:
+    root: INFO
+    com.hyvercode.springdays: DEBUG
+    org.camunda.bpm.client: DEBUG
+
+server:
+  error:
+    include-message: always
+  servlet:
+    context-path: "/spring-days"
+  #  tomcat:
+  #    accept-count: 10
+  #    connection-timeout: 1
+  #    max-connections: 15
+  #    threads:
+  #      max: 50
+  #      min-spare: 10
+  jetty:
+    threads:
+      idle-timeout: 6000
+      max: 500
+      max-queue-capacity: 50
+      min: 50
+      selectors: 1
+
+management:
+  health:
+    livenessState:
+      enabled: true
+    readinessState:
+      enabled: true
+  endpoint:
+    health:
+      probes:
+        enabled: true
+  endpoints:
+    web:
+      exposure:
+        include:
+          - prometheus
+          - metrics
+          - health
+          - circuitbreakers
+          - circuitbreakerevents
+          - retryevents
+  retries:
+    enabled: true
+  metrics:
+    tags:
+      application: spring-days
+
+traces:
+  configs:
+    - name: default
+      remote_write:
+        - endpoint: tempo-us-central1.grafana.net:443
+          basic_auth:
+            username: 235554
+            password: ${SPRING_GRAFANA}
+
+spring:
+  datasource:
+    url: ${SPRING_DATASOURCE_URL}
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
+  main:
+    banner-mode: off
+  jackson:
+    property-naming-strategy: LOWER_CAMEL_CASE
+  cache:
+    type: REDIS
+    redis:
+      cache-null-values: true
+      key-prefix: spring-days
+      time-to-live: 1h
+  redis:
+    host: ${SPRING_REDIS_HOST}
+    port: ${SPRING_REDIS_PORT}
+  rabbitmq:
+    host: ${SPRING_RABBITMQ_HOST}
+    port: ${SPRING_RABBITMQ_PORT}
+    username: ${SPRING_RABBITMQ_USERNAME}
+    password: ${SPRING_RABBITMQ_PASSWORD}
+    queue:
+      name: q.spring-days
+    exchange: x.spring-days
+    routing-key: r.spring-days
+    publisher-confirm-type: CORRELATED
+    publisher-returns: true
+    template:
+      mandatory: true
+    cache:
+      channel:
+        size: 5
+    listener:   # blocking!
+      simple:
+        retry:
+          enabled: true
+          initial-interval: 3000
+          max-attempts: 5
+  batch:
+    job:
+      enabled: false
+    jdbc:
+      initialize-schema: ALWAYS
+
+setting:
+  service:
+    internal:
+      name: spring-days
+      key: ${INTERNAL_SERVICE_KEY}
+  jwt:
+    token:
+      issuer: MY_LOCAL_MACHINE
+    jks:
+      filePath: ${JWT_JKS_FILE_PATH}
+      filePassword: ${JWT_JKS_FILE_PASSWORD}
+      keyName: ${JWT_JKS_KEY_NAME}
+      keyPassword: ${JWT_JKS_KEY_PASSWORD}
+    secret: SECRET
+
+#  resilience4j
+resilience4j.retry:
+  configs:
+    default:
+      registerHealthIndicator: true
+      maxRetryAttempts: 3
+      waitDuration: 1s
+      enableExponentialBackoff: true
+      exponentialBackoffMultiplier: 2
+  instances:
+    auth-api:
+      throwingException:
+        maxRetryAttempts: 3
+        waitDuration: 2s
+        retryExceptions:
+          - java.lang.Exception
+
+resilience4j.circuitbreaker:
+  configs:
+    default:
+      registerHealthIndicator: true
+      failureRateThreshold: 100
+      slowCallRateThreshold: 100
+      slowCallDurationThreshold: 60000
+      permittedNumberOfCallsInHalfOpenState: 5
+      maxWaitDurationInHalfOpenState: 60000
+      slidingWindowType: COUNT_BASED
+      slidingWindowSize: 20
+      minimumNumberOfCalls: 4
+      waitDurationInOpenState: 60000
+  instances:
+    auth-api:
+      baseConfig: default
+
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: 5000
+        readTimeout: 5000
+        loggerLevel: BASIC
+  autoconfiguration:
+    jackson:
+      enabled: true
+  api:
+    auth-api:
+      url: http://localhost:8000/api
+      key: 7579c5eb-67f3-44b5-9654-a6393b56d8ff
+
+camunda.bpm:
+  admin-user:
+    id: demo
+    password: demo
+    firstName: Demo
+  filter:
+    create: All tasks

@@ -1,0 +1,15 @@
+CREATE TABLE job_schedule (
+    job_schedule_id BIGINT NOT NULL PRIMARY KEY,
+    job_name VARCHAR(255) NOT NULL,
+    scheduled_time TIME NOT NULL,
+    executed BOOLEAN DEFAULT FALSE,
+    retry_count INTEGER DEFAULT 0,
+    is_active BOOLEAN NOT NULL,
+    created_by VARCHAR(50) NOT NULL,
+    created_time TIMESTAMP NOT NULL,
+    updated_by VARCHAR(50) NULL,
+    updated_time TIMESTAMP NULL
+);
+
+INSERT INTO "PUBLIC"."JOB_SCHEDULE"("JOB_SCHEDULE_ID","JOB_NAME","SCHEDULED_TIME","EXECUTED","RETRY_COUNT","IS_ACTIVE","CREATED_BY","CREATED_TIME","UPDATED_BY","UPDATED_TIME")
+VALUES(1,'initJob','21:40',0,3,true,'System','1990-01-01 00:00:00','System','1990-01-01 00:00:00');

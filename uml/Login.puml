@@ -1,0 +1,14 @@
+@startuml
+actor Member
+participant System
+database user
+
+Member -> System : login()
+System -> user : findUsernameAndPassword()
+user -> System : foundUser() if found
+System -> Member : success()
+user -> System : foundUser() not found
+System -> Member : failed()
+System -> Member : end()
+
+@enduml
