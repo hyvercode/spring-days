@@ -1,4 +1,9 @@
 spring:
+  batch:
+    job:
+      enabled: false
+    jdbc:
+      initialize-schema: always
   h2:
     console:
       enabled: true
@@ -59,11 +64,6 @@ spring:
       starttls:
         enable: true
     sender: noreply@hyvercode.com
-  batch:
-    job:
-      enabled: false
-    jdbc:
-      initialize-schema: ALWAYS
 
 logging:
   level:

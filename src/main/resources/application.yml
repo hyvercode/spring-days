@@ -112,7 +112,7 @@ spring:
     job:
       enabled: false
     jdbc:
-      initialize-schema: ALWAYS
+      initialize-schema: always
 
 setting:
   service:
