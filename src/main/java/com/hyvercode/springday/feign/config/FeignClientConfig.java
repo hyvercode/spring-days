@@ -10,12 +10,6 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class FeignClientConfig {
 
-  private final AuthorizationHeaderRequestInterceptor authorizationHeaderRequestInterceptor;
-
-  public FeignClientConfig(AuthorizationHeaderRequestInterceptor authorizationHeaderRequestInterceptor) {
-    this.authorizationHeaderRequestInterceptor = authorizationHeaderRequestInterceptor;
-  }
-
   /**
    * Enable this bean if you want to add headers in HTTP request
    */
@@ -25,10 +19,5 @@ public class FeignClientConfig {
       requestTemplate.header("Content-Type", "application/json");
       requestTemplate.header("Accept", "application/json");
     };
-  }
-
-  @Bean
-  public AuthorizationHeaderRequestInterceptor requestInterceptor(RequestTemplate requestTemplate) {
-    return authorizationHeaderRequestInterceptor;
   }
 }

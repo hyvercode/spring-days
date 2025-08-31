@@ -6,7 +6,7 @@ import com.hyvercode.springday.service.AuthService;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController

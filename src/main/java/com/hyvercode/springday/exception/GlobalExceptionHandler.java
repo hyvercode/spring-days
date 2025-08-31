@@ -1,5 +1,6 @@
 package com.hyvercode.springday.exception;
 
+import jakarta.ws.rs.NotFoundException;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpHeaders;
@@ -12,9 +13,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.validation.FieldError;
-import org.webjars.NotFoundException;
 
-import javax.persistence.EntityNotFoundException;
+import jakarta.persistence.EntityNotFoundException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;

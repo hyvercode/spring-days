@@ -185,7 +185,14 @@ SPRING BOOT DAYS
             <artifactId>spring-boot-starter-jetty</artifactId>
         </dependency>
 
+17. Upgrade to spring 3.x.x
 
+        <parent>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-parent</artifactId>
+            <version>3.2.4</version>
+            <relativePath/>
+        </parent>
 
 <br>
 API LOGIN

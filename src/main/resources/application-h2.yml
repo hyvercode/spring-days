@@ -1,5 +1,4 @@
 spring:
-  profiles: h2
   h2:
     console:
       enabled: true

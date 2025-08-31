@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 @Builder
 @Data
@@ -27,7 +27,6 @@ public class EmailTemplate extends BaseEntity {
   private String emailCode;
 
   @Lob
-  @Type(type = "org.hibernate.type.TextType")
   @Column(name = "content",columnDefinition = "text")
   private String content;
 

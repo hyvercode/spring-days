@@ -5,8 +5,8 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.7.18</version>
-        <relativePath/> <!-- lookup parent from repository -->
+        <version>3.2.4</version>
+        <relativePath/>
     </parent>
     <groupId>com.hyvercode</groupId>
     <artifactId>spring-days</artifactId>
@@ -15,33 +15,32 @@
     <description>Learning project for Spring Boot</description>
 
     <properties>
-        <!-- Compilation Properties -->
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <java.version>17</java.version>
         <env.java.opts>$JAVA_OPTS</env.java.opts>
 
-        <!-- Dependency Properties -->
-        <springdoc-openapi.version>1.6.9</springdoc-openapi.version>
-        <auth0.jwt.version>4.0.0</auth0.jwt.version>
-        <mapstruct.version>1.5.2.Final</mapstruct.version>
-        <hibernate-types-55.version>2.16.3</hibernate-types-55.version>
-        <postgres.version>42.5.0</postgres.version>
-        <h2.version>2.1.214</h2.version>
+        <springdoc-openapi.version>2.5.0</springdoc-openapi.version>
+        <auth0.jwt.version>4.5.0</auth0.jwt.version>
+        <mapstruct.version>1.5.5.Final</mapstruct.version>
+        <hibernate-types.version>2.21.1</hibernate-types.version>
+        <postgres.version>42.7.3</postgres.version>
+        <h2.version>2.2.224</h2.version>
+        <brave.version>5.13.10</brave.version>
+        <guava.version>33.2.1-jre</guava.version>
+        <firebase-admin.version>9.3.0</firebase-admin.version>
+        <snakeyaml.version>2.2</snakeyaml.version>
 
-        <!-- Maven plugin properties -->
-        <sonar-maven-plugin.version>3.9.1.2184</sonar-maven-plugin.version>
-        <maven-surefire-plugin.version>2.22.2</maven-surefire-plugin.version>
-        <jacoco-maven-plugin.version>0.8.8</jacoco-maven-plugin.version>
-        <prettier-maven-plugin.version>0.18</prettier-maven-plugin.version>
-        <camunda.version>7.19.0</camunda.version>
-        <spring-cloud.version>2021.0.4</spring-cloud.version>
+        <sonar-maven-plugin.version>3.11.0.3922</sonar-maven-plugin.version>
+        <maven-surefire-plugin.version>3.2.5</maven-surefire-plugin.version>
+        <jacoco-maven-plugin.version>0.8.12</jacoco-maven-plugin.version>
+        <prettier-maven-plugin.version>0.21</prettier-maven-plugin.version>
+        <camunda.version>7.23.0</camunda.version>
+        <spring-cloud.version>2023.0.1</spring-cloud.version>
     </properties>
 
     <dependencies>
-        <!-- Spring boot Framework -->
-        <!-- replace tomcat with jetty -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
@@ -57,34 +56,29 @@
             <artifactId>spring-boot-starter-jetty</artifactId>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-data-jpa -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-amqp -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-amqp</artifactId>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-security -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-validation -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-validation</artifactId>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-actuator -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
         <dependency>
             <groupId>io.github.resilience4j</groupId>
-            <artifactId>resilience4j-spring-boot2</artifactId>
+            <artifactId>resilience4j-spring-boot3</artifactId>
         </dependency>
 
         <dependency>
@@ -92,7 +86,6 @@
             <artifactId>spring-boot-starter-aop</artifactId>
         </dependency>
 
-        <!-- cache via redis -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-cache</artifactId>
@@ -102,33 +95,27 @@
             <artifactId>spring-boot-starter-data-redis</artifactId>
         </dependency>
 
-        <!-- Database and Migrations Framework -->
-        <!-- https://mvnrepository.com/artifact/org.flywaydb/flyway-core -->
         <dependency>
             <groupId>org.flywaydb</groupId>
             <artifactId>flyway-core</artifactId>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/org.postgresql/postgresql -->
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
+            <version>${postgres.version}</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/com.h2database/h2 -->
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
+            <version>${h2.version}</version>
         </dependency>
 
-        <!-- JWT Framework -->
-        <!-- https://mvnrepository.com/artifact/com.auth0/java-jwt -->
         <dependency>
             <groupId>com.auth0</groupId>
             <artifactId>java-jwt</artifactId>
             <version>${auth0.jwt.version}</version>
         </dependency>
 
-        <!-- Lombok transpile enrichment Framework -->
-        <!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
@@ -136,26 +123,22 @@
         </dependency>
 
 
-        <!-- SpringDoc openapi Framework -->
-        <!-- https://mvnrepository.com/artifact/org.springdoc/springdoc-openapi-ui -->
         <dependency>
             <groupId>org.springdoc</groupId>
-            <artifactId>springdoc-openapi-ui</artifactId>
+            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
             <version>${springdoc-openapi.version}</version>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/org.mapstruct/mapstruct -->
         <dependency>
             <groupId>org.mapstruct</groupId>
             <artifactId>mapstruct</artifactId>
             <version>${mapstruct.version}</version>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/com.vladmihalcea/hibernate-types-55 -->
         <dependency>
             <groupId>com.vladmihalcea</groupId>
-            <artifactId>hibernate-types-55</artifactId>
-            <version>${hibernate-types-55.version}</version>
+            <artifactId>hibernate-types-60</artifactId>
+            <version>${hibernate-types.version}</version>
         </dependency>
 
         <dependency>
@@ -170,30 +153,25 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/io.zipkin.brave/brave -->
         <dependency>
             <groupId>io.zipkin.brave</groupId>
             <artifactId>brave</artifactId>
-            <version>5.13.10</version>
+            <version>${brave.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
-            <version>31.1-jre</version>
+            <version>${guava.version}</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter-openfeign -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-openfeign</artifactId>
-            <version>3.1.4</version>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/org.springframework.integration/spring-integration-mail -->
         <dependency>
             <groupId>org.springframework.integration</groupId>
             <artifactId>spring-integration-mail</artifactId>
-            <version>5.5.15</version>
         </dependency>
 
         <dependency>
@@ -214,31 +192,23 @@
         </dependency>
 
         <dependency>
-            <groupId>javax.mail</groupId>
-            <artifactId>javax.mail-api</artifactId>
-            <version>1.6.2</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.sun.mail</groupId>
-            <artifactId>javax.mail</artifactId>
-            <version>1.6.2</version>
+            <groupId>jakarta.mail</groupId>
+            <artifactId>jakarta.mail-api</artifactId>
+            <version>2.1.3</version>
         </dependency>
 
         <dependency>
             <groupId>io.vavr</groupId>
             <artifactId>vavr</artifactId>
-            <version>0.10.2</version>
+            <version>0.10.4</version>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/com.google.firebase/firebase-admin -->
         <dependency>
             <groupId>com.google.firebase</groupId>
             <artifactId>firebase-admin</artifactId>
-            <version>9.1.0</version>
+            <version>${firebase-admin.version}</version>
         </dependency>
 
-        <!-- camunda -->
         <dependency>
             <groupId>org.camunda.bpm.springboot</groupId>
             <artifactId>camunda-bpm-spring-boot-starter-rest</artifactId>
@@ -269,25 +239,22 @@
             <version>6.18.0</version>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/org.json/json -->
         <dependency>
             <groupId>org.json</groupId>
             <artifactId>json</artifactId>
-            <version>20231013</version>
+            <version>20240303</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/org.yaml/snakeyaml -->
         <dependency>
             <groupId>org.yaml</groupId>
             <artifactId>snakeyaml</artifactId>
-            <version>2.0</version>
+            <version>${snakeyaml.version}</version>
         </dependency>
 
-        <!--		Spring Batch-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-batch</artifactId>
@@ -328,7 +295,7 @@
             <dependency>
                 <groupId>io.netty</groupId>
                 <artifactId>netty-bom</artifactId>
-                <version>4.1.86.Final</version>
+                <version>4.1.109.Final</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
